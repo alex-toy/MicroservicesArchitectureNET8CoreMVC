@@ -1,0 +1,6 @@
+@Bonus.API_HostAddress = http://localhost:5015
+
+GET {{Bonus.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
