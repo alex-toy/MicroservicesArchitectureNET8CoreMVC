@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Azure;
 using Bonus.API.Dtos;
-using Bonus.API.Models;
+using Bonus.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Products.API.DbContexts;
 
@@ -13,11 +12,41 @@ public class IncentiveController : ControllerBase
 {
     private readonly AppDbContext _db;
     private readonly IMapper _mapper;
+    private readonly IIncentiveService _incentiveService;
 
-    public IncentiveController(AppDbContext db, IMapper mapper)
+    public IncentiveController(AppDbContext db, IMapper mapper, IIncentiveService incentiveService)
     {
         _db = db;
         _mapper = mapper;
+        _incentiveService = incentiveService;
+    }
+
+    [HttpPost("Create")]
+    public ResponseDto<int> Create([FromBody] IncentiveDto incentive)
+    {
+        try
+        {
+            int incentiveId = _incentiveService.Upsert(incentive);
+            return new ResponseDto<int> { Result = incentiveId, IsSuccess = true };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpPut("Update")]
+    public ResponseDto<int> Update([FromBody] IncentiveDto incentive)
+    {
+        try
+        {
+            int incentiveId = _incentiveService.Upsert(incentive);
+            return new ResponseDto<int> { Result = incentiveId, IsSuccess = true };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
     }
 
     [HttpGet("GetAll")]
@@ -25,8 +54,7 @@ public class IncentiveController : ControllerBase
     {
         try
         {
-            IEnumerable<Incentive> incentives = _db.Incentives.ToList();
-            List<IncentiveDto> incentiveDtos =  _mapper.Map<List<IncentiveDto>>(incentives);
+            List<IncentiveDto> incentiveDtos = _incentiveService.GetAll();
             return new ResponseDto<List<IncentiveDto>> { Result = incentiveDtos, IsSuccess = true };
         }
         catch (Exception ex)
@@ -40,9 +68,41 @@ public class IncentiveController : ControllerBase
     {
         try
         {
-            Incentive incentive = _db.Incentives.First(i => i.IncentiveId == id);
-            IncentiveDto incentiveDto = _mapper.Map<IncentiveDto>(incentive);
-            return new ResponseDto<IncentiveDto> { Result = incentiveDto , IsSuccess = true };
+            IncentiveDto incentiveDto = _incentiveService.Get(i => i.IncentiveId == id);
+            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
+            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
+
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpGet("GetByCode/{code}")]
+    public ResponseDto<IncentiveDto> GetByCode(string code)
+    {
+        try
+        {
+            IncentiveDto? incentiveDto = _incentiveService.Get(i => i.IncentiveCode == code);
+            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
+            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
+
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpDelete("Delete/{id:int}")]
+    public ResponseDto<IncentiveDto> Delete(int id)
+    {
+        try
+        {
+            bool isSuccess = _incentiveService.Delete(id);
+            if (!isSuccess) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "error deleting" };
+            return new ResponseDto<IncentiveDto> { IsSuccess = true };
 
         }
         catch (Exception ex)

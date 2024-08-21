@@ -1,5 +1,5 @@
 using Bonus.API;
-using AutoMapper;
+using Bonus.API.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ builder.ConfigureDatabase();
 
 builder.ConfigureMapper();
 
-//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IIncentiveService, IncentiveService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

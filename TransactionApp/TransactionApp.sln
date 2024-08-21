@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{51
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{E1A54276-A401-4EC2-9DBA-84B29E95F4B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bonus.API", "Services\Bonus.API\Bonus.API.csproj", "{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bonus.API", "Services\Bonus.API\Bonus.API.csproj", "{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transactions.Web", "Frontend\Transactions.Web\Transactions.Web.csproj", "{3255DF12-8DEB-4C8F-BE45-748B093C157B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3255DF12-8DEB-4C8F-BE45-748B093C157B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3255DF12-8DEB-4C8F-BE45-748B093C157B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3255DF12-8DEB-4C8F-BE45-748B093C157B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3255DF12-8DEB-4C8F-BE45-748B093C157B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6} = {51ED6782-2960-481C-8F74-F0AB56E6AC1C}
+		{3255DF12-8DEB-4C8F-BE45-748B093C157B} = {E92CB3A9-BC9C-4B1B-BBFF-30F4DA89148E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25C101DD-A9CD-48A4-930F-A7AE47864F45}
