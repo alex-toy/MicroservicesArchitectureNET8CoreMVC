@@ -44,7 +44,7 @@ public class IncentiveController : Controller
         {
             ResponseDto<int>? response = await _incentiveService.CreateAsync(model);
 
-            if (response != null && response.IsSuccess)
+            if (response is not null && response.IsSuccess)
             {
                 TempData["success"] = "Coupon created successfully";
                 return RedirectToAction(nameof(GetAll));
@@ -54,39 +54,41 @@ public class IncentiveController : Controller
                 TempData["error"] = response?.ErrorMessage;
             }
         }
+
         return View(model);
     }
 
-    //public async Task<IActionResult> Delete(int couponId)
-    //{
-    //    ResponseDto? response = await _incentiveService.GetByIdAsync(couponId);
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int couponId)
+    {
+        ResponseDto<bool>? response = await _incentiveService.DeleteAsync(couponId);
 
-    //    if (response != null && response.IsSuccess)
-    //    {
-    //        CouponDto? model = JsonConvert.DeserializeObject<IncentiveDto>(Convert.ToString(response.Result));
-    //        return View(model);
-    //    }
-    //    else
-    //    {
-    //        TempData["error"] = response?.Message;
-    //    }
-    //    return NotFound();
-    //}
+        if (response != null && response.IsSuccess)
+        {
+            return View();
+        }
+        else
+        {
+            TempData["error"] = response?.ErrorMessage;
+        }
 
-    //[HttpPost]
-    //public async Task<IActionResult> CouponDelete(CouponDto couponDto)
-    //{
-    //    ResponseDto? response = await _incentiveService.DeleteCouponsAsync(couponDto.CouponId);
+        return NotFound();
+    }
 
-    //    if (response != null && response.IsSuccess)
-    //    {
-    //        TempData["success"] = "Coupon deleted successfully";
-    //        return RedirectToAction(nameof(CouponIndex));
-    //    }
-    //    else
-    //    {
-    //        TempData["error"] = response?.Message;
-    //    }
-    //    return View(couponDto);
-    //}
+    [HttpPost]
+    public async Task<IActionResult> Delete(IncentiveDto incentiveDto)
+    {
+        ResponseDto<bool> response = await _incentiveService.DeleteAsync(incentiveDto.IncentiveId);
+
+        if (response != null && response.IsSuccess)
+        {
+            TempData["success"] = "Coupon deleted successfully";
+            return RedirectToAction(nameof(GetAll));
+        }
+        else
+        {
+            TempData["error"] = response?.ErrorMessage;
+        }
+        return View(incentiveDto);
+    }
 }
