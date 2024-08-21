@@ -1,10 +1,10 @@
-﻿namespace Transactions.Web.Dtos;
+﻿namespace Transactions.Web.Utils;
 
 public static class Constants
 {
-    public static string ProductAPIBase { get; set; }
+    public static string BonusAPIBase { get; set; }
+    public static string TransactionAPIBase { get; set; }
     public static string ShoppingCartAPIBase { get; set; }
-    public static string CouponAPIBase { get; set; }
     public enum ApiType
     {
         GET,

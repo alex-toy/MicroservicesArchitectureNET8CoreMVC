@@ -21,6 +21,52 @@ public class IncentiveController : ControllerBase
         _incentiveService = incentiveService;
     }
 
+    [HttpGet("GetAll")]
+    public ResponseDto<List<IncentiveDto>> GetAll()
+    {
+        try
+        {
+            List<IncentiveDto> incentiveDtos = _incentiveService.GetAll();
+            return new ResponseDto<List<IncentiveDto>> { Result = incentiveDtos, IsSuccess = true };
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<List<IncentiveDto>> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpGet("GetById/{id:int}")]
+    public ResponseDto<IncentiveDto> GetById(int id)
+    {
+        try
+        {
+            IncentiveDto? incentiveDto = _incentiveService.Get(i => i.IncentiveId == id);
+            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
+            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
+
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpGet("GetByCode/{code}")]
+    public ResponseDto<IncentiveDto> GetByCode(string code)
+    {
+        try
+        {
+            IncentiveDto? incentiveDto = _incentiveService.Get(i => i.IncentiveCode == code);
+            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
+            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
+
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
     [HttpPost("Create")]
     public ResponseDto<int> Create([FromBody] IncentiveDto incentive)
     {
@@ -46,52 +92,6 @@ public class IncentiveController : ControllerBase
         catch (Exception ex)
         {
             return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message };
-        }
-    }
-
-    [HttpGet("GetAll")]
-    public ResponseDto<List<IncentiveDto>> GetAll()
-    {
-        try
-        {
-            List<IncentiveDto> incentiveDtos = _incentiveService.GetAll();
-            return new ResponseDto<List<IncentiveDto>> { Result = incentiveDtos, IsSuccess = true };
-        }
-        catch (Exception ex)
-        {
-            return new ResponseDto<List<IncentiveDto>> { IsSuccess = false, ErrorMessage = ex.Message };
-        }
-    }
-
-    [HttpGet("GetById/{id:int}")]
-    public ResponseDto<IncentiveDto> GetById(int id)
-    {
-        try
-        {
-            IncentiveDto incentiveDto = _incentiveService.Get(i => i.IncentiveId == id);
-            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
-            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
-
-        }
-        catch (Exception ex)
-        {
-            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
-        }
-    }
-
-    [HttpGet("GetByCode/{code}")]
-    public ResponseDto<IncentiveDto> GetByCode(string code)
-    {
-        try
-        {
-            IncentiveDto? incentiveDto = _incentiveService.Get(i => i.IncentiveCode == code);
-            if (incentiveDto is null) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "not found" };
-            return new ResponseDto<IncentiveDto> { Result = incentiveDto, IsSuccess = true };
-
-        }
-        catch (Exception ex)
-        {
-            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
         }
     }
 

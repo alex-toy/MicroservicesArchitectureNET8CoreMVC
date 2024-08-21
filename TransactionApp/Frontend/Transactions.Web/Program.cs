@@ -1,7 +1,23 @@
-var builder = WebApplication.CreateBuilder(args);
+using Transactions.Web;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+
+builder.ConfigureHttpClient();
+
+builder.ConfigureAPIBases(args);
+
+builder.ConfigureServices();
+
+
+
+
+
+
+
 
 var app = builder.Build();
 

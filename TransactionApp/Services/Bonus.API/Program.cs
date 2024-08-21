@@ -7,7 +7,7 @@ builder.ConfigureDatabase();
 
 builder.ConfigureMapper();
 
-builder.Services.AddScoped<IIncentiveService, IncentiveService>();
+builder.ConfigureServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

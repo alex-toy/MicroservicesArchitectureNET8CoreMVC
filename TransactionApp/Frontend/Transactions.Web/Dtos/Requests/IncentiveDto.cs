@@ -1,4 +1,4 @@
-﻿namespace Transactions.Web.Dtos;
+﻿namespace Transactions.Web.Dtos.Data;
 
 public class IncentiveDto
 {

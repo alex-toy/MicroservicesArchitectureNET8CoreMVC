@@ -2,7 +2,7 @@
 
 namespace Transactions.Web.Services;
 
-public interface IBaseService<T>
+public interface IBaseService
 {
-    Task<ResponseDto<T>> SendAsync(RequestDto request);
+    Task<ResponseDto<TResponse>> SendAsync<TRequest, TResponse>(RequestDto<TRequest> request);
 }

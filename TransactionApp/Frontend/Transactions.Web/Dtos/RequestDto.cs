@@ -1,11 +1,12 @@
-﻿using static Transactions.Web.Dtos.Constants;
+﻿using System.Data.SqlTypes;
+using static Transactions.Web.Utils.Constants;
 
 namespace Transactions.Web.Dtos;
 
-public class RequestDto
+public class RequestDto<TRequest>
 {
     public ApiType ApiType { get; set; } = ApiType.GET;
     public string Url { get; set; }
-    public object Data { get; set; }
+    public TRequest? Data { get; set; }
     public string AccessToken { get; set; }
 }

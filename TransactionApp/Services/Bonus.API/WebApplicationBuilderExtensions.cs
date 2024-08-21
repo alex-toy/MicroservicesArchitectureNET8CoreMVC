@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Bonus.API.Mappers;
+using Bonus.API.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Products.API.DbContexts;
 
 namespace Bonus.API;
@@ -18,5 +18,10 @@ public static class WebApplicationBuilderExtensions
     {
         IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
         builder.Services.AddSingleton(mapper);
+    }
+
+    public static void ConfigureServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IIncentiveService, IncentiveService>();
     }
 }
