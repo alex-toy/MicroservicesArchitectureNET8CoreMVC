@@ -6,9 +6,9 @@ namespace Bonus.API.Services
     public interface IIncentiveService
     {
         int Upsert(IncentiveDto incentiveDto);
-        List<IncentiveDto> GetAll();
+        List<IncentiveDto> GetAll(FilterIncentiveDto filterIncentive);
         IncentiveDto? Get(Func<Incentive, bool> predicate);
         bool Delete(int incentiveId);
-        bool DeleteMany(IncentiveDto incentive);
+        bool DeleteMany(DeleteIncentiveDto incentive);
     }
 }

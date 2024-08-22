@@ -34,9 +34,39 @@ public class IncentiveService : IIncentiveService
         return incentive.IncentiveId;
     }
 
-    public List<IncentiveDto> GetAll()
-    {
-        IEnumerable<Incentive> incentives = _db.Incentives.ToList();
+    public List<IncentiveDto> GetAll(FilterIncentiveDto filterIncentive)
+	{
+		Func<Incentive, bool>? transportPredicate = incentive =>
+		{
+			if (filterIncentive.TransportComparator == ">") return incentive.MinTransportCount > filterIncentive.TransportCount;
+			if (filterIncentive.TransportComparator == ">=") return incentive.MinTransportCount >= filterIncentive.TransportCount;
+			if (filterIncentive.TransportComparator == "<") return incentive.MinTransportCount < filterIncentive.TransportCount;
+			if (filterIncentive.TransportComparator == "<=") return incentive.MinTransportCount <= filterIncentive.TransportCount;
+			return true;
+		};
+
+		Func<Incentive, bool>? kilometerPredicate = incentive =>
+		{
+			if (filterIncentive.KilometerComparator == ">") return incentive.MinKilometersCount > filterIncentive.KilometersCount;
+			if (filterIncentive.KilometerComparator == ">=") return incentive.MinKilometersCount >= filterIncentive.KilometersCount;
+			if (filterIncentive.KilometerComparator == "<") return incentive.MinKilometersCount < filterIncentive.KilometersCount;
+			if (filterIncentive.KilometerComparator == "<=") return incentive.MinKilometersCount <= filterIncentive.KilometersCount;
+			return true;
+		};
+
+		Func<Incentive, bool>? bonusPredicate = incentive =>
+		{
+			if (filterIncentive.BonusComparator == ">") return incentive.Bonus > filterIncentive.Bonus;
+			if (filterIncentive.BonusComparator == ">=") return incentive.Bonus >= filterIncentive.Bonus;
+			if (filterIncentive.BonusComparator == "<") return incentive.Bonus < filterIncentive.Bonus;
+			if (filterIncentive.BonusComparator == "<=") return incentive.Bonus <= filterIncentive.Bonus;
+			return true;
+		};
+
+		Func<Incentive, bool>? predicate = i => kilometerPredicate(i) && bonusPredicate(i) && transportPredicate(i);
+
+		IEnumerable<Incentive> incentives = _db.Incentives.Where(predicate);
+
         List<IncentiveDto> incentiveDtos = _mapper.Map<List<IncentiveDto>>(incentives);
         return incentiveDtos;
     }
@@ -56,7 +86,7 @@ public class IncentiveService : IIncentiveService
         return true;
     }
 
-    public bool DeleteMany(IncentiveDto incentive)
+    public bool DeleteMany(DeleteIncentiveDto incentive)
     {
         List<Incentive> incentives = _db.Incentives.Where(i => 
             i.MinKilometersCount > incentive.MinKilometersCount && 

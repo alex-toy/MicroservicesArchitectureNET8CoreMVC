@@ -21,12 +21,12 @@ public class IncentiveController : ControllerBase
         _incentiveService = incentiveService;
     }
 
-    [HttpGet("GetAll")]
-    public ResponseDto<List<IncentiveDto>> GetAll()
+    [HttpPost("GetAll")]
+    public ResponseDto<List<IncentiveDto>> GetAll([FromBody] FilterIncentiveDto filterIncentive)
     {
         try
         {
-            List<IncentiveDto> incentiveDtos = _incentiveService.GetAll();
+            List<IncentiveDto> incentiveDtos = _incentiveService.GetAll(filterIncentive);
             return new ResponseDto<List<IncentiveDto>> { Result = incentiveDtos, IsSuccess = true };
         }
         catch (Exception ex)
@@ -112,7 +112,7 @@ public class IncentiveController : ControllerBase
     }
 
     [HttpDelete("DeleteMany")]
-    public ResponseDto<bool> DeleteMany([FromBody] IncentiveDto incentive)
+    public ResponseDto<bool> DeleteMany([FromBody] DeleteIncentiveDto incentive)
     {
         try
         {

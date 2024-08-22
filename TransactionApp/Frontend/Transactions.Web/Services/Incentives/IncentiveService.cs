@@ -1,5 +1,6 @@
 ﻿using Transactions.Web.Dtos;
 using Transactions.Web.Dtos.Data;
+using Transactions.Web.Dtos.Requests;
 using static Transactions.Web.Utils.Constants;
 
 namespace Transactions.Web.Services.Incentives;
@@ -13,15 +14,16 @@ public class IncentiveService : IIncentiveService
         _baseService = baseService;
     }
 
-    public async Task<ResponseDto<List<IncentiveDto>>> GetAllAsync()
+    public async Task<ResponseDto<List<IncentiveDto>>> GetAllAsync(FilterIncentiveDto filter)
     {
-        RequestDto<object> request = new ()
+        RequestDto<FilterIncentiveDto> request = new ()
         {
-            ApiType = ApiType.GET,
+            Data = filter,
+            ApiType = ApiType.POST,
             Url = BonusAPIBase + "/api/Incentive/GetAll",
         };
 
-        return await _baseService.SendAsync<object, List<IncentiveDto>>(request);
+        return await _baseService.SendAsync<FilterIncentiveDto, List<IncentiveDto>>(request);
     }
 
     public async Task<ResponseDto<IncentiveDto>> GetByIdAsync(int incentiveId)
@@ -81,15 +83,15 @@ public class IncentiveService : IIncentiveService
         return await _baseService.SendAsync<int, bool>(request);
     }
 
-    public async Task<ResponseDto<bool>> DeleteManyAsync(IncentiveDto incentive)
+    public async Task<ResponseDto<bool>> DeleteManyAsync(DeleteIncentiveDto incentive)
     {
-        RequestDto<IncentiveDto> request = new()
+        RequestDto<DeleteIncentiveDto> request = new()
         {
             Data = incentive,
             ApiType = ApiType.DELETE,
             Url = BonusAPIBase + "/api/Incentive/DeleteMany",
         };
 
-        return await _baseService.SendAsync<IncentiveDto, bool>(request);
+        return await _baseService.SendAsync<DeleteIncentiveDto, bool>(request);
     }
 }

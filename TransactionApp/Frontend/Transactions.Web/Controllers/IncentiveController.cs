@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Transactions.Web.Dtos;
 using Transactions.Web.Dtos.Data;
+using Transactions.Web.Dtos.Requests;
+using Transactions.Web.Models;
 using Transactions.Web.Services.Incentives;
+using Transactions.Web.Utils;
 
 namespace Transactions.Web.Controllers;
 
@@ -14,22 +18,27 @@ public class IncentiveController : Controller
         _incentiveService = incentiveService;
     }
 
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(FilterIncentiveDto filter)
     {
         List<IncentiveDto>? incentiveDtos = new();
 
-        ResponseDto<List<IncentiveDto>> response = await _incentiveService.GetAllAsync();
+        ResponseDto<List<IncentiveDto>> response = await _incentiveService.GetAllAsync(filter);
 
         if (response is not null && response.IsSuccess)
         {
-            incentiveDtos = response.Result;
+            incentiveDtos = response.Result ?? new List<IncentiveDto>();
         }
         else
         {
             TempData["error"] = response?.ErrorMessage;
-        }
+		}
 
-        return View("Incentives", incentiveDtos);
+		GetAllViewModel viewModel = new GetAllViewModel() { Filter = new(), Incentives = incentiveDtos };
+		ViewBag.TransportComparators = ComparatorDropDownList.PopulateComparatorDropDownList<TransportComparatorDropDownList>();
+		ViewBag.KilometerComparators = ComparatorDropDownList.PopulateComparatorDropDownList<KilometerComparatorDropDownList>();
+		ViewBag.BonusComparators = ComparatorDropDownList.PopulateComparatorDropDownList<BonusComparatorDropDownList>();
+
+		return View("Incentives", viewModel);
     }
 
     public async Task<IActionResult> Create()
@@ -46,7 +55,7 @@ public class IncentiveController : Controller
 
         if (response is not null && response.IsSuccess)
         {
-            TempData["success"] = "Coupon created successfully";
+            TempData["success"] = "Incentive created successfully";
             return RedirectToAction(nameof(GetAll));
         }
         else
@@ -78,15 +87,14 @@ public class IncentiveController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteMany(IncentiveDto incentive)
+    public async Task<IActionResult> DeleteMany(DeleteIncentiveDto incentive)
     {
         if (!ModelState.IsValid) return View(incentive);
 
-        ResponseDto<int>? response = await _incentiveService.CreateAsync(incentive);
+        ResponseDto<bool>? response = await _incentiveService.DeleteManyAsync(incentive);
 
         if (response is not null && response.IsSuccess)
         {
-            TempData["success"] = "Coupon created successfully";
             return RedirectToAction(nameof(GetAll));
         }
         else
@@ -94,5 +102,5 @@ public class IncentiveController : Controller
             TempData["error"] = response?.ErrorMessage;
             return View(incentive);
         }
-    }
+	}
 }

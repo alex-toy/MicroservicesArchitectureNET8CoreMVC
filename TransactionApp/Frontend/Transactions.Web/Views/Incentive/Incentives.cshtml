@@ -1,5 +1,5 @@
 ﻿@using Transactions.Web.Dtos.Data
-@model IEnumerable<IncentiveDto>
+@model GetAllViewModel
 
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -11,7 +11,29 @@
 	</div>
 	<div class="card-body p-4">
 		<div class="row pb-3">
-			<div class="col-6">
+			<div class="col-12">
+				<form asp-action="GetAll" class="col-12">
+
+					<label class="control-label pt-2" style="font-size:20px;">Transport</label>
+					<select asp-for="Filter.TransportComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.TransportComparators">
+						<option value="">choose</option>
+					</select>
+					<input asp-for="Filter.TransportCount" class="btn btn-outline-primary col-1" />
+
+					<label class="control-label pt-2 pl-15" style="font-size:20px;">Kilometer</label>
+					<select asp-for="Filter.KilometerComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.KilometerComparators">
+						<option value="">choose</option>
+					</select>
+					<input asp-for="Filter.KilometersCount" class="btn btn-outline-primary col-1" />
+
+					<label class="control-label pt-2 pl-15" style="font-size:20px;">Bonus</label>
+					<select asp-for="Filter.BonusComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.BonusComparators">
+						<option value="">choose</option>
+					</select>
+					<input asp-for="Filter.Bonus" class="btn btn-outline-primary col-1" />
+
+					<input type="submit" value="Apply filters" class="btn btn-success col-1" />
+				</form>
 			</div>
 			<div class="col-6 text-end">
 				<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Incentive</a>
@@ -36,23 +58,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(var item in Model)
+				@foreach(var incentive in Model.Incentives)
 				{
 				<tr>
 					<td>
-						@item.IncentiveCode
+						@incentive.IncentiveCode
 					</td>
 					<td>
-						@item.MinTransportCount
+						@incentive.MinTransportCount
 					</td>
 					<td>
-						@item.MinKilometersCount
+						@incentive.MinKilometersCount
 					</td>
 					<td>
-						@((item.Bonus).ToString("c"))
+						@((incentive.Bonus).ToString("c"))
 					</td>
 					<td>
-						<a asp-action="Delete" asp-route-incentiveId="@item.IncentiveId" class="btn btn-danger">
+						<a asp-action="Delete" asp-route-incentiveId="@incentive.IncentiveId" class="btn btn-danger">
 						<i class="bi bi-trash"></i>
 						</a>
 					</td>
@@ -60,7 +82,5 @@
 				}
 			</tbody>
 		</table>
-
 	</div>
-
 </div>
