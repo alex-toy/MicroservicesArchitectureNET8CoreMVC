@@ -29,7 +29,7 @@ public class IncentiveController : Controller
             TempData["error"] = response?.ErrorMessage;
         }
 
-        return View(incentiveDtos);
+        return View("Incentives", incentiveDtos);
     }
 
     public async Task<IActionResult> Create()
@@ -38,34 +38,31 @@ public class IncentiveController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(IncentiveDto model)
+    public async Task<IActionResult> Create(IncentiveDto incentiveDto)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return View(incentiveDto);
+
+        ResponseDto<int>? response = await _incentiveService.CreateAsync(incentiveDto);
+
+        if (response is not null && response.IsSuccess)
         {
-            ResponseDto<int>? response = await _incentiveService.CreateAsync(model);
-
-            if (response is not null && response.IsSuccess)
-            {
-                TempData["success"] = "Coupon created successfully";
-                return RedirectToAction(nameof(GetAll));
-            }
-            else
-            {
-                TempData["error"] = response?.ErrorMessage;
-            }
+            TempData["success"] = "Coupon created successfully";
+            return RedirectToAction(nameof(GetAll));
         }
-
-        return View(model);
+        else
+        {
+            TempData["error"] = response?.ErrorMessage;
+            return View(incentiveDto);
+        }
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Delete(int couponId)
+    public async Task<IActionResult> Delete(int incentiveId)
     {
-        ResponseDto<bool>? response = await _incentiveService.DeleteAsync(couponId);
+        ResponseDto<bool>? response = await _incentiveService.DeleteAsync(incentiveId);
 
-        if (response != null && response.IsSuccess)
+        if (response is not null && response.IsSuccess)
         {
-            return View();
+            return RedirectToAction("GetAll");
         }
         else
         {
@@ -75,20 +72,27 @@ public class IncentiveController : Controller
         return NotFound();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Delete(IncentiveDto incentiveDto)
+    public async Task<IActionResult> DeleteMany()
     {
-        ResponseDto<bool> response = await _incentiveService.DeleteAsync(incentiveDto.IncentiveId);
+        return View();
+    }
 
-        if (response != null && response.IsSuccess)
+    [HttpPost]
+    public async Task<IActionResult> DeleteMany(IncentiveDto incentive)
+    {
+        if (!ModelState.IsValid) return View(incentive);
+
+        ResponseDto<int>? response = await _incentiveService.CreateAsync(incentive);
+
+        if (response is not null && response.IsSuccess)
         {
-            TempData["success"] = "Coupon deleted successfully";
+            TempData["success"] = "Coupon created successfully";
             return RedirectToAction(nameof(GetAll));
         }
         else
         {
             TempData["error"] = response?.ErrorMessage;
+            return View(incentive);
         }
-        return View(incentiveDto);
     }
 }

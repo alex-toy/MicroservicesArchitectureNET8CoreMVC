@@ -9,5 +9,6 @@ namespace Bonus.API.Services
         List<IncentiveDto> GetAll();
         IncentiveDto? Get(Func<Incentive, bool> predicate);
         bool Delete(int incentiveId);
+        bool DeleteMany(IncentiveDto incentive);
     }
 }

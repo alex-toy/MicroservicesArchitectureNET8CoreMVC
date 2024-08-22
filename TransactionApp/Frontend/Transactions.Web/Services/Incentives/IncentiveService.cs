@@ -80,4 +80,16 @@ public class IncentiveService : IIncentiveService
 
         return await _baseService.SendAsync<int, bool>(request);
     }
+
+    public async Task<ResponseDto<bool>> DeleteManyAsync(IncentiveDto incentive)
+    {
+        RequestDto<IncentiveDto> request = new()
+        {
+            Data = incentive,
+            ApiType = ApiType.DELETE,
+            Url = BonusAPIBase + "/api/Incentive/DeleteMany",
+        };
+
+        return await _baseService.SendAsync<IncentiveDto, bool>(request);
+    }
 }

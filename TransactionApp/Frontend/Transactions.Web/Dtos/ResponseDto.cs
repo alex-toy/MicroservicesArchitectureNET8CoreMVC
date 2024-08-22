@@ -1,8 +1,8 @@
 ﻿namespace Transactions.Web.Dtos;
 
-public class ResponseDto<T>
+public class ResponseDto<TResponse>
 {
-    public T Result { get; set; }
+    public TResponse? Result { get; set; } = default;
     public bool IsSuccess { get; set; } = true;
     public string ErrorMessage { get; set; } = string.Empty;
 }

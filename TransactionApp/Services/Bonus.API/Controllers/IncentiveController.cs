@@ -77,7 +77,7 @@ public class IncentiveController : ControllerBase
         }
         catch (Exception ex)
         {
-            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message };
+            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message, Result = 0 };
         }
     }
 
@@ -91,23 +91,39 @@ public class IncentiveController : ControllerBase
         }
         catch (Exception ex)
         {
-            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message };
+            return new ResponseDto<int> { IsSuccess = false, ErrorMessage = ex.Message, Result = 0 };
         }
     }
 
     [HttpDelete("Delete/{id:int}")]
-    public ResponseDto<IncentiveDto> Delete(int id)
+    public ResponseDto<bool> Delete(int id)
     {
         try
         {
             bool isSuccess = _incentiveService.Delete(id);
-            if (!isSuccess) return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = "error deleting" };
-            return new ResponseDto<IncentiveDto> { IsSuccess = true };
+            if (!isSuccess) return new ResponseDto<bool> { IsSuccess = false, ErrorMessage = "error deleting" };
+            return new ResponseDto<bool> { IsSuccess = true };
 
         }
         catch (Exception ex)
         {
-            return new ResponseDto<IncentiveDto> { IsSuccess = false, ErrorMessage = ex.Message };
+            return new ResponseDto<bool> { IsSuccess = false, ErrorMessage = ex.Message };
+        }
+    }
+
+    [HttpDelete("DeleteMany")]
+    public ResponseDto<bool> DeleteMany([FromBody] IncentiveDto incentive)
+    {
+        try
+        {
+            bool isSuccess = _incentiveService.DeleteMany(incentive);
+            if (!isSuccess) return new ResponseDto<bool> { IsSuccess = false, ErrorMessage = "error deleting" };
+            return new ResponseDto<bool> { IsSuccess = true };
+
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<bool> { IsSuccess = false, ErrorMessage = ex.Message };
         }
     }
 }

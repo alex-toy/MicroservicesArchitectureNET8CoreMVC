@@ -1,0 +1,48 @@
+﻿@using Transactions.Web.Dtos.Data
+@model IncentiveDto
+
+<form asp-action="DeleteMany">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Delete Incentives</h1>
+        <input asp-for="IncentiveId" hidden />
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;"> Incentive Code</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="IncentiveCode" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">MinTransportCount</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="MinTransportCount" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">MinKilometersCount</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="MinKilometersCount" class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Bonus</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Bonus" class="form-control" />
+            </div>
+
+            <div class="col-5 offset-2">
+                <a asp-action="GetAll" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+
+            <div class="col-5">
+                <input type="submit" value="DeleteMany" class="btn btn-danger form-control" />
+            </div>
+        </div>
+    </div>
+</form>

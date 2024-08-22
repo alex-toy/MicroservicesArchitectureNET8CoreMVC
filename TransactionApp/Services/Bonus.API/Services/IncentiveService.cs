@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bonus.API.Dtos;
+using Bonus.API.Migrations;
 using Bonus.API.Models;
 using Products.API.DbContexts;
 
@@ -51,6 +52,18 @@ public class IncentiveService : IIncentiveService
         Incentive? incentive = _db.Incentives.FirstOrDefault(i => i.IncentiveId == incentiveId);
         if (incentive is null) return false;
         _db.Incentives.Remove(incentive);
+        _db.SaveChanges();
+        return true;
+    }
+
+    public bool DeleteMany(IncentiveDto incentive)
+    {
+        List<Incentive> incentives = _db.Incentives.Where(i => 
+            i.MinKilometersCount > incentive.MinKilometersCount && 
+            i.Bonus > incentive.Bonus &&
+            i.MinTransportCount > incentive.MinTransportCount
+        ).ToList();
+        _db.Incentives.RemoveRange(incentives);
         _db.SaveChanges();
         return true;
     }
