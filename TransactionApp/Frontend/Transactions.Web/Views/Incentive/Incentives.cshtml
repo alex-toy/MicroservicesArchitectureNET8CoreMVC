@@ -12,7 +12,7 @@
 	<div class="card-body p-4">
 		<div class="row pb-3">
 			<div class="col-12">
-				<form asp-action="GetAll" class="col-12">
+				<form asp-action="GetAll" class="col-10">
 
 					<label class="control-label pt-2" style="font-size:20px;">Transport</label>
 					<select asp-for="Filter.TransportComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.TransportComparators">
@@ -32,11 +32,11 @@
 					</select>
 					<input asp-for="Filter.Bonus" class="btn btn-outline-primary col-1" />
 
-					<input type="submit" value="Apply filters" class="btn btn-success col-1" />
+					<input type="submit" value="Filter" class="btn btn-success col-1" />
 				</form>
-			</div>
-			<div class="col-6 text-end">
-				<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Incentive</a>
+				<div class="col-2 text-end">
+					<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Incentive</a>
+				</div>
 			</div>
 		</div>
 		<table class="table">
