@@ -54,7 +54,7 @@ public class AuthService : IAuthService
 
             ApplicationUser userToReturn = _db.ApplicationUsers.First(u => u.UserName == registrationRequestDto.Email);
 
-            UserDto userDto = userToReturn.ToDto();
+            //UserDto userDto = userToReturn.ToDto();
 
             return "";
         }
@@ -66,18 +66,21 @@ public class AuthService : IAuthService
         return "Error Encountered";
     }
 
-    public async Task<bool> AssignRole(string email, string roleName)
+    public async Task<bool> AssignRoles(RoleAssignmentDto roleAssignmentDto)
     {
-        ApplicationUser? user = _db.ApplicationUsers.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
+        ApplicationUser? user = _db.ApplicationUsers.FirstOrDefault(u => u.Email.ToLower() == roleAssignmentDto.Email.ToLower());
 
         if (user is null) return false;
 
-        if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+        foreach (var roleName in roleAssignmentDto.Roles)
         {
-            await _roleManager.CreateAsync(new IdentityRole(roleName));
-        }
+            if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
 
-        await _userManager.AddToRoleAsync(user, roleName);
+            await _userManager.AddToRoleAsync(user, roleName);
+        }
 
         return true;
     }

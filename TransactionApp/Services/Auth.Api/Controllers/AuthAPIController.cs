@@ -55,9 +55,9 @@ public class AuthAPIController : ControllerBase
     }
 
     [HttpPost("AssignRole")]
-    public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
+    public async Task<IActionResult> AssignRole([FromBody] RoleAssignmentDto model)
     {
-        bool assignRoleSuccessful = await _authService.AssignRole(model.Email, model.Role.ToUpper());
+        bool assignRoleSuccessful = await _authService.AssignRoles(model);
 
         if (!assignRoleSuccessful)
         {

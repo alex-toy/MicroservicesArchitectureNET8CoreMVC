@@ -17,6 +17,7 @@ public static class WebApplicationBuilderExtensions
         using IHost host = Host.CreateDefaultBuilder(args).Build();
         IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
         
+        Constants.AuthAPIBase = config.GetValue<string>("ServiceUrls:AuthAPI")!;
         Constants.BonusAPIBase = config.GetValue<string>("ServiceUrls:BonusAPI")!;
     }
 
