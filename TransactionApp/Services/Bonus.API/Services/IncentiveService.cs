@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Bonus.API.Data;
 using Bonus.API.Dtos;
 using Bonus.API.Migrations;
 using Bonus.API.Models;
-using Products.API.DbContexts;
 
 namespace Bonus.API.Services;
 

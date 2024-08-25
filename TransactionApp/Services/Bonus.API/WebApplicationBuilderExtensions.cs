@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Bonus.API.Data;
 using Bonus.API.Mappers;
 using Bonus.API.Services;
 using Microsoft.EntityFrameworkCore;
-using Products.API.DbContexts;
 
 namespace Bonus.API;
 

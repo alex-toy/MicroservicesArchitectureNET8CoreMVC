@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Products.API.DbContexts;
+﻿using Bonus.API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bonus.API;
 

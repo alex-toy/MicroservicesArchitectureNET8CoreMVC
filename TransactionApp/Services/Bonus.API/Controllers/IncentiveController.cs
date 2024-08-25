@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Bonus.API.Data;
 using Bonus.API.Dtos;
 using Bonus.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Products.API.DbContexts;
 
 namespace Bonus.API.Controllers;
 
