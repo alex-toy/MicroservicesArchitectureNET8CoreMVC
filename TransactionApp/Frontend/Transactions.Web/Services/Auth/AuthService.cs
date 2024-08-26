@@ -8,6 +8,7 @@ namespace Transactions.Web.Services.Auth;
 public class AuthService : IAuthService
 {
     private readonly IBaseService _baseService;
+    private const string ApiUrl = "/api/auth/";
 
     public AuthService(IBaseService baseService)
     {
@@ -20,7 +21,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = loginRequestDto,
-            Url = AuthAPIBase + "/api/auth/login"
+            Url = AuthAPIBase + ApiUrl + "login"
         }, withBearer: false) ?? new ResponseDto<LoginResponseDto> { IsSuccess = false, ErrorMessage = "problem with login" };
     }
 
@@ -30,7 +31,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = registrationRequestDto,
-            Url = AuthAPIBase + "/api/auth/register"
+            Url = AuthAPIBase + ApiUrl + "register"
         }, withBearer: false) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with register" };
     }
 
@@ -40,7 +41,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = roleAssignmentDto,
-            Url = AuthAPIBase + "/api/auth/AssignRole"
+            Url = AuthAPIBase + ApiUrl + "AssignRole"
         }) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with AssignRole" };
     }
 }

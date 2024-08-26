@@ -39,42 +39,25 @@ public class TransportService : ITransportService
         return _mapper.Map<List<TransportDto>>(Transports);
     }
 
-    //public List<TransportDto> GetAll(FilterIncentiveDto filterIncentive)
-    //{
-    //    Func<Transport, bool>? transportPredicate = Transport =>
-    //    {
-    //        if (filterIncentive.TransportComparator == ">") return Transport.MinTransportCount > filterIncentive.TransportCount;
-    //        if (filterIncentive.TransportComparator == ">=") return Transport.MinTransportCount >= filterIncentive.TransportCount;
-    //        if (filterIncentive.TransportComparator == "<") return Transport.MinTransportCount < filterIncentive.TransportCount;
-    //        if (filterIncentive.TransportComparator == "<=") return Transport.MinTransportCount <= filterIncentive.TransportCount;
-    //        return true;
-    //    };
+    public List<TransportDto> GetAll(FilterTransportDto filter)
+    {
+        Func<Transport, bool>? transportPredicate = transport =>
+        {
+            if (filter.PriceComparator == ">") return transport.Price > filter.Price;
+            if (filter.PriceComparator == ">=") return transport.Price >= filter.Price;
+            if (filter.PriceComparator == "<") return transport.Price < filter.Price;
+            if (filter.PriceComparator == "<=") return transport.Price <= filter.Price;
+            return true;
+        };
 
-    //    Func<Transport, bool>? kilometerPredicate = Transport =>
-    //    {
-    //        if (filterIncentive.KilometerComparator == ">") return Transport.MinKilometersCount > filterIncentive.KilometersCount;
-    //        if (filterIncentive.KilometerComparator == ">=") return Transport.MinKilometersCount >= filterIncentive.KilometersCount;
-    //        if (filterIncentive.KilometerComparator == "<") return Transport.MinKilometersCount < filterIncentive.KilometersCount;
-    //        if (filterIncentive.KilometerComparator == "<=") return Transport.MinKilometersCount <= filterIncentive.KilometersCount;
-    //        return true;
-    //    };
+        Func<Transport, bool>? toFromPredicate = transport => transport.To == filter.To && transport.From == filter.From;
 
-    //    Func<Transport, bool>? bonusPredicate = Transport =>
-    //    {
-    //        if (filterIncentive.BonusComparator == ">") return Transport.Bonus > filterIncentive.Bonus;
-    //        if (filterIncentive.BonusComparator == ">=") return Transport.Bonus >= filterIncentive.Bonus;
-    //        if (filterIncentive.BonusComparator == "<") return Transport.Bonus < filterIncentive.Bonus;
-    //        if (filterIncentive.BonusComparator == "<=") return Transport.Bonus <= filterIncentive.Bonus;
-    //        return true;
-    //    };
+        Func<Transport, bool>? predicate = i =>  transportPredicate(i) && toFromPredicate(i);
 
-    //    Func<Transport, bool>? predicate = i => kilometerPredicate(i) && bonusPredicate(i) && transportPredicate(i);
+        IEnumerable<Transport> transports = _db.Transports.Where(predicate);
 
-    //    IEnumerable<Transport> Transports = _db.Transports.Where(predicate);
-
-    //    List<TransportDto> incentiveDtos = _mapper.Map<List<TransportDto>>(Transports);
-    //    return incentiveDtos;
-    //}
+        return _mapper.Map<List<TransportDto>>(transports);
+    }
 
     public TransportDto? Get(Func<Transport, bool> predicate)
     {

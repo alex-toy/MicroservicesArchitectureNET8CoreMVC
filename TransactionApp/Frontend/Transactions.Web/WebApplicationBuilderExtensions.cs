@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Transactions.Core.Services;
 using Transactions.Core.Utils;
+using Transactions.Core.Utils.Cookies;
 using Transactions.Web.Services.Auth;
 using Transactions.Web.Services.Incentives;
 
@@ -30,6 +31,7 @@ public static class WebApplicationBuilderExtensions
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IBaseService, BaseService>();
+        builder.Services.AddScoped<ICookiesHelper, CookiesHelper>();
         builder.Services.AddScoped<ICookieToken, CookieToken>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IIncentiveService, IncentiveService>();

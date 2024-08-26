@@ -1,30 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Transactions.Core.Utils.Cookies;
 
 namespace Transactions.Core.Utils;
 
 public class CookieToken : ICookieToken
 {
-    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ICookiesHelper _cookieHelper;
 
-    public CookieToken(IHttpContextAccessor contextAccessor)
+    public CookieToken(ICookiesHelper cookieHelper)
     {
-        _contextAccessor = contextAccessor;
+        _cookieHelper = cookieHelper;
     }
 
     public void RemoveCookieToken()
     {
-        _contextAccessor.HttpContext?.Response.Cookies.Delete(Constants.TokenCookie);
+        _cookieHelper.RemoveCookie(Constants.TokenCookie);
     }
 
     public string? GetTokenFromCookie()
     {
-        string? token = null;
-        bool? hasToken = _contextAccessor.HttpContext?.Request.Cookies.TryGetValue(Constants.TokenCookie, out token);
-        return hasToken is true ? token : null;
+        return _cookieHelper.GetCookie(Constants.TokenCookie);
     }
 
     public void SetCookieToken(string token)
     {
-        _contextAccessor.HttpContext?.Response.Cookies.Append(Constants.TokenCookie, token);
+        _cookieHelper.AddCookie(Constants.TokenCookie, token);
     }
 }

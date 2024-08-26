@@ -3,8 +3,8 @@ using Transactions.Web;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllersWithViews();
 
 builder.ConfigureHttpClient();
 
