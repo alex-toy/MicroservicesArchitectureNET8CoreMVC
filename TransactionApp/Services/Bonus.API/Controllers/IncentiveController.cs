@@ -3,6 +3,7 @@ using Bonus.API.Data;
 using Bonus.API.Dtos;
 using Bonus.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Transactions.Core.Dtos;
 
 namespace Bonus.API.Controllers;
 

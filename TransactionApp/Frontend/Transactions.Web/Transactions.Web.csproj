@@ -7,7 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dtos\Auth\**" />
+    <Content Remove="Dtos\Auth\**" />
+    <EmbeddedResource Remove="Dtos\Auth\**" />
+    <None Remove="Dtos\Auth\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dtos\RequestDto.cs" />
+    <Compile Remove="Dtos\ResponseDto.cs" />
+    <Compile Remove="Services\BaseService.cs" />
+    <Compile Remove="Services\IBaseService.cs" />
+    <Compile Remove="Utils\Constants.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Transactions.Core\Transactions.Core.csproj" />
   </ItemGroup>
 
 </Project>

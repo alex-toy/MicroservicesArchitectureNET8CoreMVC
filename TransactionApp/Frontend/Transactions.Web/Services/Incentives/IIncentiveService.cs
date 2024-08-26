@@ -1,4 +1,4 @@
-﻿using Transactions.Web.Dtos;
+﻿using Transactions.Core.Dtos;
 using Transactions.Web.Dtos.Data;
 using Transactions.Web.Dtos.Requests;
 

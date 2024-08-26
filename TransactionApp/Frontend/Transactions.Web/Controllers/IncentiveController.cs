@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Transactions.Web.Dtos;
+using Transactions.Core.Dtos;
 using Transactions.Web.Dtos.Data;
 using Transactions.Web.Dtos.Requests;
 using Transactions.Web.Models;

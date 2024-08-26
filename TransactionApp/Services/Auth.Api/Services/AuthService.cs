@@ -1,8 +1,9 @@
 ﻿using Auth.Api.Data;
-using Auth.Api.Dtos;
 using Auth.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Transactions.Core.Dtos.Auth;
+using Transactions.Core.Models;
 
 namespace Auth.Api.Services;
 

@@ -3,6 +3,7 @@ using Auth.Api.Models;
 using Auth.Api.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Transactions.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,27 +1,30 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using System.Text;
-using Transactions.Web.Dtos;
-using static Transactions.Web.Utils.Constants;
+using Transactions.Core.Dtos;
+using Transactions.Core.Utils;
+using static Transactions.Core.Utils.Constants;
 
-namespace Transactions.Web.Services;
+namespace Transactions.Core.Services;
 
 public class BaseService : IBaseService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ITokenProvider _tokenProvider;
 
-    public BaseService(IHttpClientFactory httpClient)
+    public BaseService(IHttpClientFactory httpClient, ITokenProvider tokenProvider)
     {
         _httpClientFactory = httpClient;
+        _tokenProvider = tokenProvider;
     }
 
-    public async Task<ResponseDto<TResponse>> SendAsync<TRequest, TResponse>(RequestDto<TRequest> request)
+    public async Task<ResponseDto<TResponse>> SendAsync<TRequest, TResponse>(RequestDto<TRequest> request, bool withBearer = true)
     {
         try
         {
             HttpResponseMessage apiResponse = await GetApiResponse(request);
 
-            return  await GetResponseDto<TResponse>(apiResponse);
+            return await GetResponseDto<TResponse>(apiResponse);
         }
         catch (Exception ex)
         {
@@ -29,7 +32,7 @@ public class BaseService : IBaseService
         }
     }
 
-    private async Task<HttpResponseMessage> GetApiResponse<TRequest>(RequestDto<TRequest> request)
+    private async Task<HttpResponseMessage> GetApiResponse<TRequest>(RequestDto<TRequest> request, bool withBearer = true)
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TransactionAPI");
         HttpRequestMessage message = new()
@@ -40,7 +43,11 @@ public class BaseService : IBaseService
         };
         message.Headers.Add("Accept", "application/json");
 
-        // Token
+        if (withBearer)
+        {
+            string? token = _tokenProvider.GetToken();
+            message.Headers.Add("Authorization", $"Bearer {token}");
+        }
 
         HttpResponseMessage? apiResponse = await httpClient.SendAsync(message);
         return apiResponse;

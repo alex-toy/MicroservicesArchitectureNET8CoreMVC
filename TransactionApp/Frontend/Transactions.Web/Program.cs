@@ -12,6 +12,9 @@ builder.ConfigureAPIBases(args);
 
 builder.ConfigureServices();
 
+builder.ConfigureAuth();
+
+
 
 
 

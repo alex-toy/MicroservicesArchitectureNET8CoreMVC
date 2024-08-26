@@ -1,4 +1,4 @@
-﻿namespace Bonus.API.Dtos;
+﻿namespace Transactions.Core.Dtos;
 
 public class ResponseDto<T>
 {

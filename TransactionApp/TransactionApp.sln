@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bonus.API", "Services\Bonus
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transactions.Web", "Frontend\Transactions.Web\Transactions.Web.csproj", "{3255DF12-8DEB-4C8F-BE45-748B093C157B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Api", "Services\Auth.Api\Auth.Api.csproj", "{3398090A-5020-4E5B-83DC-1D45A7D0C703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Api", "Services\Auth.Api\Auth.Api.csproj", "{3398090A-5020-4E5B-83DC-1D45A7D0C703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transactions.Core", "Transactions.Core\Transactions.Core.csproj", "{06B40254-B750-466C-93EE-BEBD393FD04B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{3398090A-5020-4E5B-83DC-1D45A7D0C703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3398090A-5020-4E5B-83DC-1D45A7D0C703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3398090A-5020-4E5B-83DC-1D45A7D0C703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B40254-B750-466C-93EE-BEBD393FD04B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B40254-B750-466C-93EE-BEBD393FD04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B40254-B750-466C-93EE-BEBD393FD04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B40254-B750-466C-93EE-BEBD393FD04B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

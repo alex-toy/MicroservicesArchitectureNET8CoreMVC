@@ -1,4 +1,4 @@
-﻿namespace Auth.Api.Dtos;
+﻿namespace Transactions.Core.Dtos.Auth;
 
 public class UserDto
 {

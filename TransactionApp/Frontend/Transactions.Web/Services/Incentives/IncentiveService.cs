@@ -1,7 +1,8 @@
-﻿using Transactions.Web.Dtos;
+﻿using Transactions.Core.Dtos;
+using Transactions.Core.Services;
 using Transactions.Web.Dtos.Data;
 using Transactions.Web.Dtos.Requests;
-using static Transactions.Web.Utils.Constants;
+using static Transactions.Core.Utils.Constants;
 
 namespace Transactions.Web.Services.Incentives;
 

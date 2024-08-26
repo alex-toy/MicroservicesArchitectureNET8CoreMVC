@@ -1,6 +1,8 @@
-﻿using Transactions.Web.Services;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Transactions.Core.Services;
+using Transactions.Core.Utils;
+using Transactions.Web.Services.Auth;
 using Transactions.Web.Services.Incentives;
-using Transactions.Web.Utils;
 
 namespace Transactions.Web;
 
@@ -10,6 +12,10 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddHttpClient();
         builder.Services.AddHttpClient<IIncentiveService, IncentiveService>();
+        builder.Services.AddHttpClient<IAuthService, AuthService>();
+        //builder.Services.AddHttpClient<ITransportService, TransportService>();
+        //builder.Services.AddHttpClient<ITransportCartService, TransportCartService>();
+        //builder.Services.AddHttpClient<IOrderService, OrderService>();
     }
 
     public static void ConfigureAPIBases(this WebApplicationBuilder builder, string[] args)
@@ -24,6 +30,19 @@ public static class WebApplicationBuilderExtensions
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IBaseService, BaseService>();
+        builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IIncentiveService, IncentiveService>();
+    }
+
+    public static void ConfigureAuth(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(10);
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Auth/AccessDenied";
+            });
     }
 }

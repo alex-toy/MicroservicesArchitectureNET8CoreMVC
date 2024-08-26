@@ -1,4 +1,4 @@
-﻿using Auth.Api.Dtos;
+﻿using Transactions.Core.Dtos.Auth;
 
 namespace Auth.Api.Services
 {

@@ -1,7 +1,6 @@
-﻿using System.Data.SqlTypes;
-using static Transactions.Web.Utils.Constants;
+﻿using static Transactions.Core.Utils.Constants;
 
-namespace Transactions.Web.Dtos;
+namespace Transactions.Core.Dtos;
 
 public class RequestDto<TRequest>
 {
