@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transactions.Web", "Fronten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Api", "Services\Auth.Api\Auth.Api.csproj", "{3398090A-5020-4E5B-83DC-1D45A7D0C703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transactions.Core", "Transactions.Core\Transactions.Core.csproj", "{06B40254-B750-466C-93EE-BEBD393FD04B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transactions.Core", "Transactions.Core\Transactions.Core.csproj", "{06B40254-B750-466C-93EE-BEBD393FD04B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transports.Api", "Transport.Api\Transports.Api.csproj", "{FEDDE8DD-71D1-4518-8D93-0D906776AA22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{06B40254-B750-466C-93EE-BEBD393FD04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B40254-B750-466C-93EE-BEBD393FD04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B40254-B750-466C-93EE-BEBD393FD04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEDDE8DD-71D1-4518-8D93-0D906776AA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEDDE8DD-71D1-4518-8D93-0D906776AA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEDDE8DD-71D1-4518-8D93-0D906776AA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEDDE8DD-71D1-4518-8D93-0D906776AA22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{593BF5D7-DFBC-40A6-853C-A5C9E1B659A6} = {51ED6782-2960-481C-8F74-F0AB56E6AC1C}
 		{3255DF12-8DEB-4C8F-BE45-748B093C157B} = {E92CB3A9-BC9C-4B1B-BBFF-30F4DA89148E}
 		{3398090A-5020-4E5B-83DC-1D45A7D0C703} = {51ED6782-2960-481C-8F74-F0AB56E6AC1C}
+		{FEDDE8DD-71D1-4518-8D93-0D906776AA22} = {51ED6782-2960-481C-8F74-F0AB56E6AC1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25C101DD-A9CD-48A4-930F-A7AE47864F45}

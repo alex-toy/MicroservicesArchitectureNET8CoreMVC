@@ -10,9 +10,9 @@ namespace Transactions.Core.Services;
 public class BaseService : IBaseService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ITokenProvider _tokenProvider;
+    private readonly ICookieToken _tokenProvider;
 
-    public BaseService(IHttpClientFactory httpClient, ITokenProvider tokenProvider)
+    public BaseService(IHttpClientFactory httpClient, ICookieToken tokenProvider)
     {
         _httpClientFactory = httpClient;
         _tokenProvider = tokenProvider;
@@ -43,14 +43,16 @@ public class BaseService : IBaseService
         };
         message.Headers.Add("Accept", "application/json");
 
-        if (withBearer)
-        {
-            string? token = _tokenProvider.GetToken();
-            message.Headers.Add("Authorization", $"Bearer {token}");
-        }
+        if (withBearer) SetMessageHeadersWithTokenFromCookie(message);
 
         HttpResponseMessage? apiResponse = await httpClient.SendAsync(message);
         return apiResponse;
+    }
+
+    private void SetMessageHeadersWithTokenFromCookie(HttpRequestMessage message)
+    {
+        string? token = _tokenProvider.GetTokenFromCookie();
+        message.Headers.Add("Authorization", $"Bearer {token}");
     }
 
     private static async Task<ResponseDto<TResponse>> GetResponseDto<TResponse>(HttpResponseMessage apiResponse)

@@ -34,12 +34,12 @@ public class AuthService : IAuthService
         }, withBearer: false) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with register" };
     }
 
-    public async Task<ResponseDto<string>> AssignRoleAsync(RegistrationRequestDto registrationRequestDto)
+    public async Task<ResponseDto<string>> AssignRoleAsync(RoleAssignmentDto roleAssignmentDto)
     {
-        return await _baseService.SendAsync<RegistrationRequestDto, string>(new RequestDto<RegistrationRequestDto>()
+        return await _baseService.SendAsync<RoleAssignmentDto, string>(new RequestDto<RoleAssignmentDto>()
         {
             ApiType = ApiType.POST,
-            Data = registrationRequestDto,
+            Data = roleAssignmentDto,
             Url = AuthAPIBase + "/api/auth/AssignRole"
         }) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with AssignRole" };
     }

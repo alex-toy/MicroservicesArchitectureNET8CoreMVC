@@ -14,9 +14,9 @@ namespace Transactions.Web.Controllers;
 public class AuthController : Controller
 {
     private readonly IAuthService _authService;
-    private readonly ITokenProvider _tokenProvider;
+    private readonly ICookieToken _tokenProvider;
 
-    public AuthController(IAuthService authService, ITokenProvider tokenProvider)
+    public AuthController(IAuthService authService, ICookieToken tokenProvider)
     {
         _authService = authService;
         _tokenProvider = tokenProvider;
@@ -43,7 +43,7 @@ public class AuthController : Controller
         LoginResponseDto loginResponseDto = responseDto.Result;
 
         await SignInUser(loginResponseDto);
-        _tokenProvider.SetToken(loginResponseDto.Token);
+        _tokenProvider.SetCookieToken(loginResponseDto.Token);
 
         return RedirectToAction("Index", "Home");
     }
@@ -65,7 +65,8 @@ public class AuthController : Controller
         {
             if (string.IsNullOrEmpty(registrationRequest.Role)) registrationRequest.Role = Constants.RoleCustomer;
 
-            assingRole = await _authService.AssignRoleAsync(registrationRequest);
+            RoleAssignmentDto roleAssignmentDto = new RoleAssignmentDto { Email = registrationRequest.Email, Roles = new List<string>() { registrationRequest.Role } };
+            assingRole = await _authService.AssignRoleAsync(roleAssignmentDto);
 
             if (assingRole.IsSuccess)
             {
@@ -83,10 +84,33 @@ public class AuthController : Controller
         return View(registrationRequest);
     }
 
+    [HttpGet]
+    public IActionResult AddRole()
+    {
+        ViewBag.RoleList = PopulateRoleDropdown();
+        return View("~/Views/Auth/AddRole.cshtml");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddRole(RoleAssignmentDto roleAssignmentDto)
+    {
+        ResponseDto<string> assingRole = await _authService.AssignRoleAsync(roleAssignmentDto);
+
+        if (assingRole.IsSuccess)
+        {
+            TempData["success"] = "Registration Successful";
+            return RedirectToAction(nameof(Login));
+        }
+
+        ViewBag.RoleList = PopulateRoleDropdown();
+
+        return View(roleAssignmentDto);
+    }
+
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync();
-        _tokenProvider.ClearToken();
+        _tokenProvider.RemoveCookieToken();
         return RedirectToAction("Index", "Home");
     }
 
@@ -100,6 +124,7 @@ public class AuthController : Controller
         ClaimsIdentity identity = GetClaimsIdentity(jwt);
 
         ClaimsPrincipal principal = new(identity);
+
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
     }
 

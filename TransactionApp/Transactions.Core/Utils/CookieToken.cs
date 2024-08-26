@@ -2,28 +2,28 @@
 
 namespace Transactions.Core.Utils;
 
-public class TokenProvider : ITokenProvider
+public class CookieToken : ICookieToken
 {
     private readonly IHttpContextAccessor _contextAccessor;
 
-    public TokenProvider(IHttpContextAccessor contextAccessor)
+    public CookieToken(IHttpContextAccessor contextAccessor)
     {
         _contextAccessor = contextAccessor;
     }
 
-    public void ClearToken()
+    public void RemoveCookieToken()
     {
         _contextAccessor.HttpContext?.Response.Cookies.Delete(Constants.TokenCookie);
     }
 
-    public string? GetToken()
+    public string? GetTokenFromCookie()
     {
         string? token = null;
         bool? hasToken = _contextAccessor.HttpContext?.Request.Cookies.TryGetValue(Constants.TokenCookie, out token);
         return hasToken is true ? token : null;
     }
 
-    public void SetToken(string token)
+    public void SetCookieToken(string token)
     {
         _contextAccessor.HttpContext?.Response.Cookies.Append(Constants.TokenCookie, token);
     }

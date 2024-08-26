@@ -7,13 +7,13 @@ namespace Auth.Api.Controllers;
 
 [Route("api/auth")]
 [ApiController]
-public class AuthAPIController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     //private readonly IMessageBus _messageBus;
     private readonly IConfiguration _configuration;
 
-    public AuthAPIController(IAuthService authService,/*IMessageBus messageBus,*/ IConfiguration configuration)
+    public AuthController(IAuthService authService,/*IMessageBus messageBus,*/ IConfiguration configuration)
     {
         _authService = authService;
         _configuration = configuration;

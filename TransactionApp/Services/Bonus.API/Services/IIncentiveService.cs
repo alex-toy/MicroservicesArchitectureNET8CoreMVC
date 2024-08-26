@@ -1,14 +1,13 @@
 ﻿using Bonus.API.Dtos;
 using Bonus.API.Models;
 
-namespace Bonus.API.Services
+namespace Bonus.API.Services;
+
+public interface IIncentiveService
 {
-    public interface IIncentiveService
-    {
-        int Upsert(IncentiveDto incentiveDto);
-        List<IncentiveDto> GetAll(FilterIncentiveDto filterIncentive);
-        IncentiveDto? Get(Func<Incentive, bool> predicate);
-        bool Delete(int incentiveId);
-        bool DeleteMany(DeleteIncentiveDto incentive);
-    }
+    int Upsert(IncentiveDto incentiveDto);
+    List<IncentiveDto> GetAll(FilterIncentiveDto filterIncentive);
+    IncentiveDto? Get(Func<Incentive, bool> predicate);
+    bool Delete(int incentiveId);
+    bool DeleteMany(DeleteIncentiveDto incentive);
 }

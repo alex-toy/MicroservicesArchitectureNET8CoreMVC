@@ -30,7 +30,7 @@ public static class WebApplicationBuilderExtensions
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IBaseService, BaseService>();
-        builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+        builder.Services.AddScoped<ICookieToken, CookieToken>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IIncentiveService, IncentiveService>();
     }
