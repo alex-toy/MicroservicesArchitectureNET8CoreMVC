@@ -1,6 +1,6 @@
 ﻿using Transactions.Core.Dtos;
+using Transactions.Core.Dtos.Transports;
 using Transactions.Core.Services;
-using Transactions.Web.Dtos.Transports;
 using static Transactions.Core.Utils.Constants;
 
 namespace Transactions.Web.Services.Transports;

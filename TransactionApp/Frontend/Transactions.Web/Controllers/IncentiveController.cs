@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Incentives;
+using Transactions.Core.Dtos.Incentives;
+using Transactions.Core.Services.Incentives;
 using Transactions.Web.Models;
-using Transactions.Web.Services.Incentives;
 using Transactions.Web.Utils;
 
 namespace Transactions.Web.Controllers;

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Transports;
+using Transactions.Core.Dtos.Transports;
+using Transactions.Core.Services.Transports;
 using Transactions.Web.Models;
-using Transactions.Web.Services.Transports;
 
 namespace Transactions.Web.Controllers
 {

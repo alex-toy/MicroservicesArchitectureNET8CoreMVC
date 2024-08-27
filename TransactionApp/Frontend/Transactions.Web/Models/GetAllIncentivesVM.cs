@@ -1,4 +1,4 @@
-﻿using Transactions.Web.Dtos.Incentives;
+﻿using Transactions.Core.Dtos.Incentives;
 
 namespace Transactions.Web.Models;
 

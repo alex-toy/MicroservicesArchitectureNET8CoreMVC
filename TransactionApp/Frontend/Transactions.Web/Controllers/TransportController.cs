@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Transports;
+using Transactions.Core.Dtos.Transports;
+using Transactions.Core.Services.Transports;
 using Transactions.Web.Models;
-using Transactions.Web.Services.Transports;
 using Transactions.Web.Utils;
 
 namespace Transactions.Web.Controllers;

@@ -8,9 +8,25 @@
 
   <ItemGroup>
     <Compile Remove="Dtos\Auth\**" />
+    <Compile Remove="Dtos\Incentives\**" />
+    <Compile Remove="Dtos\Transports\**" />
+    <Compile Remove="Services\Incentives\**" />
+    <Compile Remove="Services\Transports\**" />
     <Content Remove="Dtos\Auth\**" />
+    <Content Remove="Dtos\Incentives\**" />
+    <Content Remove="Dtos\Transports\**" />
+    <Content Remove="Services\Incentives\**" />
+    <Content Remove="Services\Transports\**" />
     <EmbeddedResource Remove="Dtos\Auth\**" />
+    <EmbeddedResource Remove="Dtos\Incentives\**" />
+    <EmbeddedResource Remove="Dtos\Transports\**" />
+    <EmbeddedResource Remove="Services\Incentives\**" />
+    <EmbeddedResource Remove="Services\Transports\**" />
     <None Remove="Dtos\Auth\**" />
+    <None Remove="Dtos\Incentives\**" />
+    <None Remove="Dtos\Transports\**" />
+    <None Remove="Services\Incentives\**" />
+    <None Remove="Services\Transports\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +44,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Transactions.Core\Transactions.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
 </Project>

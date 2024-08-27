@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Transactions.Core.Services;
+using Transactions.Core.Services.Incentives;
+using Transactions.Core.Services.Transports;
 using Transactions.Core.Utils;
 using Transactions.Core.Utils.Cookies;
 using Transactions.Web.Services.Auth;
-using Transactions.Web.Services.Incentives;
-using Transactions.Web.Services.Transports;
 
 namespace Transactions.Web;
 

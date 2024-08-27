@@ -1,5 +1,5 @@
 ﻿using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Transports;
+using Transactions.Core.Dtos.Transports;
 
 namespace Transactions.Web.Services.Transports;
 
