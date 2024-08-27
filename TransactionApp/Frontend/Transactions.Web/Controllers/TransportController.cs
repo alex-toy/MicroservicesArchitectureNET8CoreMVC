@@ -33,8 +33,9 @@ public class TransportController : Controller
 
         GetAllTransportsVM viewModel = new GetAllTransportsVM() { Filter = new(), Transports = transportDtos };
         ViewBag.PriceComparators = ComparatorDropDownList.PopulateComparatorDropDownList();
+        ViewBag.DistanceComparators = ComparatorDropDownList.PopulateComparatorDropDownList();
 
-        return View("Transports", viewModel);
+		return View("Transports", viewModel);
     }
 
     public async Task<IActionResult> Create()

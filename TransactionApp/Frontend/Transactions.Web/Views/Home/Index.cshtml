@@ -16,6 +16,7 @@
                                 <span class="badge bg-warning text-white p-2">@transport.Category</span>
                             </div>
                             <p class="card-text">@Html.Raw(transport.Price)</p>
+                            <p class="card-text">@Html.Raw(transport.DistanceKm) Kilometers</p>
                             <div class="row">
                                 <div class="col">
                                     <a asp-action="TransportDetails" asp-route-transportId="@transport.TransportId"

@@ -10,9 +10,11 @@ public class TransportDto
 
     public string To { get; set; }
 
-    public double Price { get; set; }
+	public double Price { get; set; }
 
-    public string Category { get; set; }
+	public int DistanceKm { get; set; }
+
+	public string Category { get; set; }
 
     public string? ImageUrl { get; set; }
 

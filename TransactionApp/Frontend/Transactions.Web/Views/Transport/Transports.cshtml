@@ -20,6 +20,12 @@
 					</select>
 					<input asp-for="Filter.Price" class="btn btn-outline-primary col-1" />
 
+					<label class="control-label pt-2" style="font-size:20px;">Distance</label>
+					<select asp-for="Filter.DistanceComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.DistanceComparators">
+						<option value="">choose</option>
+					</select>
+					<input asp-for="Filter.DistanceKm" class="btn btn-outline-primary col-1" />
+
 					<label class="control-label pt-2 pl-15" style="font-size:20px;">From</label>
 					<input asp-for="Filter.From" class="btn btn-outline-primary col-1" />
 
@@ -46,6 +52,9 @@
 						To
 					</th>
 					<th>
+						Distance Km
+					</th>
+					<th>
 						Price
 					</th>
 					<th></th>
@@ -60,6 +69,9 @@
 					</td>
 					<td>
 						@incentive.To
+					</td>
+					<td>
+						@incentive.DistanceKm
 					</td>
 					<td>
 						@((incentive.Price).ToString("c"))

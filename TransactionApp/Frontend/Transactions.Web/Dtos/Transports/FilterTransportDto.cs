@@ -14,14 +14,24 @@ public class FilterTransportDto
     {
         get { return _from; }
         set { _from = value ?? string.Empty; }
-    }
+	}
 
-    private string _priceComparator = string.Empty;
-    public string PriceComparator
+	private string _priceComparator = string.Empty;
+	public string PriceComparator
+	{
+		get { return _priceComparator; }
+		set { _priceComparator = value ?? string.Empty; }
+	}
+
+	public double Price { get; set; } = 0;
+
+
+    private string _distanceComparator = string.Empty;
+    public string DistanceComparator
     {
-        get { return _priceComparator; }
-        set { _priceComparator = value ?? string.Empty; }
+	    get { return _distanceComparator; }
+	    set { _distanceComparator = value ?? string.Empty; }
     }
 
-    public double Price { get; set; } = 0;
+    public int DistanceKm { get; set; } = 0;
 }

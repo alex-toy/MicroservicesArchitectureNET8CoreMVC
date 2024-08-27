@@ -16,6 +16,8 @@ public class Transport
     [Range(1, 1000)]
     public double Price { get; set; }
 
+    public int DistanceKm { get; set; }
+
     public string Category { get; set; }
 
     public string? ImageUrl { get; set; }

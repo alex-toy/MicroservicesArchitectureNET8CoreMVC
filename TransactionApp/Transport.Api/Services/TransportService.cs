@@ -42,20 +42,29 @@ public class TransportService : ITransportService
     }
 
     public List<TransportDto> GetAll(FilterTransportDto filter)
-    {
-        Func<Transport, bool>? transportPredicate = transport =>
-        {
-            if (filter.PriceComparator == ">") return transport.Price > filter.Price;
-            if (filter.PriceComparator == ">=") return transport.Price >= filter.Price;
-            if (filter.PriceComparator == "<") return transport.Price < filter.Price;
-            if (filter.PriceComparator == "<=") return transport.Price <= filter.Price;
-            return true;
-        };
+	{
+		Func<Transport, bool>? transportPredicate = transport =>
+		{
+			if (filter.PriceComparator == ">") return transport.Price > filter.Price;
+			if (filter.PriceComparator == ">=") return transport.Price >= filter.Price;
+			if (filter.PriceComparator == "<") return transport.Price < filter.Price;
+			if (filter.PriceComparator == "<=") return transport.Price <= filter.Price;
+			return true;
+		};
 
-        Func<Transport, bool>? toPredicate = transport => transport.To == filter.To || string.IsNullOrEmpty(filter.To);
-        Func<Transport, bool>? fromPredicate = transport => transport.From == filter.From || string.IsNullOrEmpty(filter.From);
+		Func<Transport, bool>? distancePredicate = transport =>
+		{
+			if (filter.DistanceComparator == ">") return transport.DistanceKm > filter.DistanceKm;
+			if (filter.DistanceComparator == ">=") return transport.DistanceKm >= filter.DistanceKm;
+			if (filter.DistanceComparator == "<") return transport.DistanceKm < filter.DistanceKm;
+			if (filter.DistanceComparator == "<=") return transport.DistanceKm <= filter.DistanceKm;
+			return true;
+		};
 
-        Func<Transport, bool>? predicate = i =>  transportPredicate(i) && toPredicate(i) && fromPredicate(i);
+		Func<Transport, bool>? toPredicate = transport => transport.To.Contains(filter.To) || string.IsNullOrEmpty(filter.To);
+        Func<Transport, bool>? fromPredicate = transport => transport.From.Contains(filter.From) || string.IsNullOrEmpty(filter.From);
+
+        Func<Transport, bool>? predicate = i => transportPredicate(i) && distancePredicate(i) && toPredicate(i) && fromPredicate(i);
 
         IEnumerable<Transport> transports = _db.Transports.Where(predicate);
 
