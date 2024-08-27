@@ -50,9 +50,10 @@ public class TransportService : ITransportService
             return true;
         };
 
-        Func<Transport, bool>? toFromPredicate = transport => transport.To == filter.To && transport.From == filter.From;
+        Func<Transport, bool>? toPredicate = transport => transport.To == filter.To || string.IsNullOrEmpty(filter.To);
+        Func<Transport, bool>? fromPredicate = transport => transport.From == filter.From || string.IsNullOrEmpty(filter.From);
 
-        Func<Transport, bool>? predicate = i =>  transportPredicate(i) && toFromPredicate(i);
+        Func<Transport, bool>? predicate = i =>  transportPredicate(i) && toPredicate(i) && fromPredicate(i);
 
         IEnumerable<Transport> transports = _db.Transports.Where(predicate);
 

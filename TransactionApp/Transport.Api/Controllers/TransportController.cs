@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
 using Transports.Api.Data;
@@ -54,11 +55,12 @@ public class TransportController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public ResponseDto<int> Create([FromBody] TransportDto incentive)
+    [Authorize(Roles = "ADMIN")]
+    public ResponseDto<int> Create([FromBody] TransportDto transport)
     {
         try
         {
-            int incentiveId = _transportService.Upsert(incentive);
+            int incentiveId = _transportService.Upsert(transport);
             return new ResponseDto<int> { Result = incentiveId, IsSuccess = true };
         }
         catch (Exception ex)
@@ -68,7 +70,8 @@ public class TransportController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public ResponseDto<int> Update([FromBody] TransportDto transport)
+	[Authorize(Roles = "ADMIN")]
+	public ResponseDto<int> Update([FromBody] TransportDto transport)
     {
         try
         {
@@ -82,7 +85,8 @@ public class TransportController : ControllerBase
     }
 
     [HttpDelete("Delete/{id:int}")]
-    public ResponseDto<bool> Delete(int id)
+	[Authorize(Roles = "ADMIN")]
+	public ResponseDto<bool> Delete(int id)
     {
         try
         {

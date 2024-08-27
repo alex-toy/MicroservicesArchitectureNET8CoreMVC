@@ -4,6 +4,7 @@ using Transactions.Core.Utils;
 using Transactions.Core.Utils.Cookies;
 using Transactions.Web.Services.Auth;
 using Transactions.Web.Services.Incentives;
+using Transactions.Web.Services.Transports;
 
 namespace Transactions.Web;
 
@@ -26,6 +27,7 @@ public static class WebApplicationBuilderExtensions
         
         Constants.AuthAPIBase = config.GetValue<string>("ServiceUrls:AuthAPI")!;
         Constants.BonusAPIBase = config.GetValue<string>("ServiceUrls:BonusAPI")!;
+        Constants.TransportAPIBase = config.GetValue<string>("ServiceUrls:TransportAPI")!;
     }
 
     public static void ConfigureServices(this WebApplicationBuilder builder)
@@ -35,6 +37,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<ICookieToken, CookieToken>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IIncentiveService, IncentiveService>();
+        builder.Services.AddScoped<ITransportsService, TransportsService>();
     }
 
     public static void ConfigureAuth(this WebApplicationBuilder builder)

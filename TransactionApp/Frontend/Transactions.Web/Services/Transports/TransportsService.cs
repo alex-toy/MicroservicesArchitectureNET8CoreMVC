@@ -21,7 +21,7 @@ public class TransportsService : ITransportsService
         {
             Data = filter,
             ApiType = ApiType.POST,
-            Url = BonusAPIBase + ApiUrl + "GetAll",
+            Url = TransportAPIBase + ApiUrl + "GetAll",
         };
 
         return await _baseService.SendAsync<FilterTransportDto, List<TransportDto>>(request);
@@ -32,7 +32,7 @@ public class TransportsService : ITransportsService
         RequestDto<int> request = new()
         {
             ApiType = ApiType.GET,
-            Url = BonusAPIBase + ApiUrl + "GetById/" + incentiveId,
+            Url = TransportAPIBase + ApiUrl + "GetById/" + incentiveId,
         };
 
         return await _baseService.SendAsync<int, TransportDto>(request);
@@ -43,7 +43,7 @@ public class TransportsService : ITransportsService
         RequestDto<string> request = new()
         {
             ApiType = ApiType.GET,
-            Url = BonusAPIBase + ApiUrl + "GetByCode/" + incentiveCode,
+            Url = TransportAPIBase + ApiUrl + "GetByCode/" + incentiveCode,
         };
 
         return await _baseService.SendAsync<string, TransportDto>(request);
@@ -55,7 +55,7 @@ public class TransportsService : ITransportsService
         {
             Data = incentive,
             ApiType = ApiType.POST,
-            Url = BonusAPIBase + ApiUrl + "Create",
+            Url = TransportAPIBase + ApiUrl + "Create",
         };
 
         return await _baseService.SendAsync<TransportDto, int>(request);
@@ -67,7 +67,7 @@ public class TransportsService : ITransportsService
         {
             Data = incentive,
             ApiType = ApiType.PUT,
-            Url = BonusAPIBase + ApiUrl + "Update",
+            Url = TransportAPIBase + ApiUrl + "Update",
         };
 
         return await _baseService.SendAsync<TransportDto, int>(request);
@@ -78,7 +78,7 @@ public class TransportsService : ITransportsService
         RequestDto<int> request = new()
         {
             ApiType = ApiType.DELETE,
-            Url = BonusAPIBase + ApiUrl + "Delete/" + incentiveId,
+            Url = TransportAPIBase + ApiUrl + "Delete/" + incentiveId,
         };
 
         return await _baseService.SendAsync<int, bool>(request);
@@ -90,7 +90,7 @@ public class TransportsService : ITransportsService
         {
             Data = incentive,
             ApiType = ApiType.DELETE,
-            Url = BonusAPIBase + ApiUrl + "DeleteMany",
+            Url = TransportAPIBase + ApiUrl + "DeleteMany",
         };
 
         return await _baseService.SendAsync<DeleteTransportDto, bool>(request);

@@ -1,4 +1,5 @@
 ﻿using Auth.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.Auth;
@@ -49,7 +50,8 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("AssignRole")]
-    public async Task<ResponseDto<string>> AssignRole([FromBody] RoleAssignmentDto model)
+	[Authorize(Roles = "ADMIN")]
+	public async Task<ResponseDto<string>> AssignRole([FromBody] RoleAssignmentDto model)
     {
         bool assignRoleSuccessful = await _authService.AssignRoles(model);
 

@@ -1,6 +1,5 @@
 ﻿using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Data;
-using Transactions.Web.Dtos.Requests;
+using Transactions.Web.Dtos.Incentives;
 
 namespace Transactions.Web.Services.Incentives;
 

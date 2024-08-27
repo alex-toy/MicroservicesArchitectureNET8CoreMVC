@@ -1,0 +1,58 @@
+﻿@using Transactions.Web.Dtos.Transports
+@model TransportDto
+
+<form asp-action="Create">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Create Incentive</h1>
+
+        <hr />
+        <div class="row">
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">From</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="From" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">To</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="To" class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Price</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Category</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Category" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+
+            <div class="col-5 offset-2">
+                <a asp-action="GetAll" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+
+            <div class="col-5">
+                <input type="submit" value="Create" class="btn btn-success form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

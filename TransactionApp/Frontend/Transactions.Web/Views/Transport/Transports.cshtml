@@ -1,0 +1,80 @@
+﻿@using Transactions.Core.Utils
+@model GetAllTransportsVM
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="text-white">Transports</h1>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<div class="row pb-3">
+			<div class="col-12">
+				<form asp-action="GetAll" class="col-10">
+
+					<label class="control-label pt-2" style="font-size:20px;">Transport</label>
+					<select asp-for="Filter.PriceComparator" class="btn btn-outline-primary col-1" asp-items="@ViewBag.PriceComparators">
+						<option value="">choose</option>
+					</select>
+					<input asp-for="Filter.Price" class="btn btn-outline-primary col-1" />
+
+					<label class="control-label pt-2 pl-15" style="font-size:20px;">From</label>
+					<input asp-for="Filter.From" class="btn btn-outline-primary col-1" />
+
+					<label class="control-label pt-2 pl-15" style="font-size:20px;">To</label>
+					<input asp-for="Filter.To" class="btn btn-outline-primary col-1" />
+
+					<input type="submit" value="Filter" class="btn btn-success col-1" />
+				</form>
+				@if (User.IsInRole(Constants.RoleAdmin))
+				{
+					<div class="col-2 text-end">
+						<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Transport</a>
+					</div>
+				}
+			</div>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						From
+					</th>
+					<th>
+						To
+					</th>
+					<th>
+						Price
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var incentive in Model.Transports)
+				{
+				<tr>
+					<td>
+						@incentive.From
+					</td>
+					<td>
+						@incentive.To
+					</td>
+					<td>
+						@((incentive.Price).ToString("c"))
+					</td>
+					<td>
+						@if (User.IsInRole(Constants.RoleAdmin))
+						{
+							<a asp-action="Delete" asp-route-incentiveId="@incentive.TransportId" class="btn btn-danger">
+								<i class="bi bi-trash"></i>
+							</a>
+						}
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

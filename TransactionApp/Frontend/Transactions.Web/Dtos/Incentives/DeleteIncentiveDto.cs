@@ -1,4 +1,4 @@
-﻿namespace Transactions.Web.Dtos.Requests;
+﻿namespace Transactions.Web.Dtos.Incentives;
 
 public class DeleteIncentiveDto
 {

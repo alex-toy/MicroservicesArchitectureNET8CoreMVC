@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
-using Transactions.Web.Dtos.Data;
-using Transactions.Web.Dtos.Requests;
+using Transactions.Web.Dtos.Incentives;
 using Transactions.Web.Models;
 using Transactions.Web.Services.Incentives;
 using Transactions.Web.Utils;
@@ -32,7 +31,7 @@ public class IncentiveController : Controller
             TempData["error"] = response?.ErrorMessage;
 		}
 
-		GetAllViewModel viewModel = new GetAllViewModel() { Filter = new(), Incentives = incentiveDtos };
+		GetAllIncentivesVM viewModel = new GetAllIncentivesVM() { Filter = new(), Incentives = incentiveDtos };
 		ViewBag.TransportComparators = ComparatorDropDownList.PopulateComparatorDropDownList<TransportComparatorDropDownList>();
 		ViewBag.KilometerComparators = ComparatorDropDownList.PopulateComparatorDropDownList<KilometerComparatorDropDownList>();
 		ViewBag.BonusComparators = ComparatorDropDownList.PopulateComparatorDropDownList<BonusComparatorDropDownList>();

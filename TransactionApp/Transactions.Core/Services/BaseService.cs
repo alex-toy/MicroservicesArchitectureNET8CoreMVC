@@ -63,18 +63,19 @@ public class BaseService : IBaseService
             HttpStatusCode.Forbidden => new ResponseDto<TResponse>() { IsSuccess = false, ErrorMessage = "Forbidden" },
             HttpStatusCode.Unauthorized => new ResponseDto<TResponse>() { IsSuccess = false, ErrorMessage = "Unauthorized" },
             HttpStatusCode.InternalServerError => new ResponseDto<TResponse>() { IsSuccess = false, ErrorMessage = "InternalServerError" },
-            _ => new ResponseDto<TResponse>() { IsSuccess = true, Result = await GetResult<TResponse>(apiResponse) },
+            _ => await Get200ResponseDto<TResponse>(apiResponse)
         };
-    }
+	}
 
-    private static async Task<TResponse?> GetResult<TResponse>(HttpResponseMessage apiResponse)
-    {
-        string apiContent = await apiResponse.Content.ReadAsStringAsync();
-        ResponseDto<TResponse>? response = JsonConvert.DeserializeObject<ResponseDto<TResponse>>(apiContent);
-        return response!.Result;
-    }
+	private static async Task<ResponseDto<TResponse>> Get200ResponseDto<TResponse>(HttpResponseMessage apiResponse)
+	{
+		string apiContent = await apiResponse.Content.ReadAsStringAsync();
+		ResponseDto<TResponse>? response = JsonConvert.DeserializeObject<ResponseDto<TResponse>>(apiContent);
+        string errorMessage = response!.ErrorMessage ?? string.Empty;
+        return new ResponseDto<TResponse>() { IsSuccess = response!.IsSuccess, Result = response!.Result, ErrorMessage = errorMessage };
+	}
 
-    private static StringContent GetSerializedData<TRequest>(RequestDto<TRequest> request)
+	private static StringContent GetSerializedData<TRequest>(RequestDto<TRequest> request)
     {
         if (string.IsNullOrEmpty(request.Url)) return null;
         return new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8, "application/json");

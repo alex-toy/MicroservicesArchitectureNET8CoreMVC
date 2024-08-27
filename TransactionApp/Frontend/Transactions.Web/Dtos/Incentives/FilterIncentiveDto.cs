@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace Transactions.Web.Dtos.Requests;
+﻿namespace Transactions.Web.Dtos.Incentives;
 
 public class FilterIncentiveDto
 {
