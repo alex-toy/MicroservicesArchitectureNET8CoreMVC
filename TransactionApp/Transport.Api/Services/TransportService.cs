@@ -16,21 +16,23 @@ public class TransportService : ITransportService
         _mapper = mapper;
     }
 
-    public int Upsert(TransportDto TransportDto)
+    public int Upsert(TransportDto transportDto, string baseUrl = "")
     {
-        Transport Transport = _mapper.Map<Transport>(TransportDto);
+        Transport transport = _mapper.Map<Transport>(transportDto);
+        //HandleImage(transportDto, baseUrl, transport);
 
-        if (Transport.TransportId > 0)
+        if (transport.TransportId > 0)
         {
-            _db.Transports.Update(Transport);
+            _db.Transports.Update(transport);
         }
         else
         {
-            _db.Transports.Add(Transport);
+            _db.Transports.Add(transport);
         }
+
         _db.SaveChanges();
 
-        return Transport.TransportId;
+        return transport.TransportId;
     }
 
     public List<TransportDto> GetAll()
@@ -75,15 +77,29 @@ public class TransportService : ITransportService
         return true;
     }
 
-    //public bool DeleteMany(DeleteIncentiveDto Transport)
-    //{
-    //    List<Transport> Transports = _db.Transports.Where(i =>
-    //        i.MinKilometersCount > Transport.MinKilometersCount &&
-    //        i.Bonus > Transport.Bonus &&
-    //        i.MinTransportCount > Transport.MinTransportCount
-    //    ).ToList();
-    //    _db.Transports.RemoveRange(Transports);
-    //    _db.SaveChanges();
-    //    return true;
-    //}
+    private static void HandleImage(TransportDto transportDto, string baseUrl, Transport transport)
+    {
+        if (transportDto.ImageUrl is not null)
+        {
+
+            string fileName = transport.TransportId + Path.GetExtension(transportDto.ImageUrl);
+            string filePath = @"wwwroot\ProductImages\" + fileName;
+
+            string directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+            FileInfo file = new FileInfo(directoryLocation);
+            if (file.Exists) file.Delete();
+
+            string filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+            using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+            {
+                //transportDto.Image.CopyTo(fileStream);
+            }
+            transport.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+            transport.ImageLocalPath = filePath;
+        }
+        else
+        {
+            transport.ImageUrl = "https://placehold.co/600x400";
+        }
+    }
 }

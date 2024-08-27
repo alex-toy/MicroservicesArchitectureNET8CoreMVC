@@ -17,4 +17,8 @@ public class Transport
     public double Price { get; set; }
 
     public string Category { get; set; }
+
+    public string? ImageUrl { get; set; }
+
+    public string? ImageLocalPath { get; set; }
 }

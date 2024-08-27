@@ -56,11 +56,13 @@ public class TransportController : ControllerBase
 
     [HttpPost("Create")]
     [Authorize(Roles = "ADMIN")]
-    public ResponseDto<int> Create([FromBody] TransportDto transport)
+    public ResponseDto<int> Create([FromBody] TransportDto transportDto)
     {
+        string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+
         try
         {
-            int incentiveId = _transportService.Upsert(transport);
+            int incentiveId = _transportService.Upsert(transportDto, baseUrl);
             return new ResponseDto<int> { Result = incentiveId, IsSuccess = true };
         }
         catch (Exception ex)
@@ -73,9 +75,11 @@ public class TransportController : ControllerBase
 	[Authorize(Roles = "ADMIN")]
 	public ResponseDto<int> Update([FromBody] TransportDto transport)
     {
+        string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+
         try
         {
-            int incentiveId = _transportService.Upsert(transport);
+            int incentiveId = _transportService.Upsert(transport, baseUrl);
             return new ResponseDto<int> { Result = incentiveId, IsSuccess = true };
         }
         catch (Exception ex)
