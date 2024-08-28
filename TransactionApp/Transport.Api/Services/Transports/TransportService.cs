@@ -3,7 +3,7 @@ using Transports.Api.Data;
 using Transports.Api.Dtos;
 using Transports.Api.Models;
 
-namespace Transports.Api.Services;
+namespace Transports.Api.Services.Transports;
 
 public class TransportService : ITransportService
 {
@@ -42,26 +42,26 @@ public class TransportService : ITransportService
     }
 
     public List<TransportDto> GetAll(FilterTransportDto filter)
-	{
-		Func<Transport, bool>? transportPredicate = transport =>
-		{
-			if (filter.PriceComparator == ">") return transport.Price > filter.Price;
-			if (filter.PriceComparator == ">=") return transport.Price >= filter.Price;
-			if (filter.PriceComparator == "<") return transport.Price < filter.Price;
-			if (filter.PriceComparator == "<=") return transport.Price <= filter.Price;
-			return true;
-		};
+    {
+        Func<Transport, bool>? transportPredicate = transport =>
+        {
+            if (filter.PriceComparator == ">") return transport.Price > filter.Price;
+            if (filter.PriceComparator == ">=") return transport.Price >= filter.Price;
+            if (filter.PriceComparator == "<") return transport.Price < filter.Price;
+            if (filter.PriceComparator == "<=") return transport.Price <= filter.Price;
+            return true;
+        };
 
-		Func<Transport, bool>? distancePredicate = transport =>
-		{
-			if (filter.DistanceComparator == ">") return transport.DistanceKm > filter.DistanceKm;
-			if (filter.DistanceComparator == ">=") return transport.DistanceKm >= filter.DistanceKm;
-			if (filter.DistanceComparator == "<") return transport.DistanceKm < filter.DistanceKm;
-			if (filter.DistanceComparator == "<=") return transport.DistanceKm <= filter.DistanceKm;
-			return true;
-		};
+        Func<Transport, bool>? distancePredicate = transport =>
+        {
+            if (filter.DistanceComparator == ">") return transport.DistanceKm > filter.DistanceKm;
+            if (filter.DistanceComparator == ">=") return transport.DistanceKm >= filter.DistanceKm;
+            if (filter.DistanceComparator == "<") return transport.DistanceKm < filter.DistanceKm;
+            if (filter.DistanceComparator == "<=") return transport.DistanceKm <= filter.DistanceKm;
+            return true;
+        };
 
-		Func<Transport, bool>? toPredicate = transport => transport.To.Contains(filter.To) || string.IsNullOrEmpty(filter.To);
+        Func<Transport, bool>? toPredicate = transport => transport.To.Contains(filter.To) || string.IsNullOrEmpty(filter.To);
         Func<Transport, bool>? fromPredicate = transport => transport.From.Contains(filter.From) || string.IsNullOrEmpty(filter.From);
 
         Func<Transport, bool>? predicate = i => transportPredicate(i) && distancePredicate(i) && toPredicate(i) && fromPredicate(i);

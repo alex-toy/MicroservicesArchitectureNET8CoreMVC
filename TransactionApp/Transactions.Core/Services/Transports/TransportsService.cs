@@ -30,7 +30,7 @@ public class TransportsService : ITransportsService
 		{
 			Data = filter,
 			ApiType = ApiType.POST,
-			Url = TransportAPIBase + ApiUrl + "GetAll",
+			Url = TransportAPI + ApiUrl + "GetAll",
 		};
 
 		return await _baseService.SendAsync<FilterTransportDto, List<TransportDto>>(request);
@@ -41,7 +41,7 @@ public class TransportsService : ITransportsService
 		RequestDto<int> request = new()
 		{
 			ApiType = ApiType.GET,
-			Url = TransportAPIBase + ApiUrl + "GetById/" + incentiveId,
+			Url = TransportAPI + ApiUrl + "GetById/" + incentiveId,
 		};
 
 		return await _baseService.SendAsync<int, TransportDto>(request);
@@ -52,7 +52,7 @@ public class TransportsService : ITransportsService
 		RequestDto<string> request = new()
 		{
 			ApiType = ApiType.GET,
-			Url = TransportAPIBase + ApiUrl + "GetByCode/" + incentiveCode,
+			Url = TransportAPI + ApiUrl + "GetByCode/" + incentiveCode,
 		};
 
 		return await _baseService.SendAsync<string, TransportDto>(request);
@@ -64,7 +64,7 @@ public class TransportsService : ITransportsService
 		{
 			Data = incentive,
 			ApiType = ApiType.POST,
-			Url = TransportAPIBase + ApiUrl + "Create",
+			Url = TransportAPI + ApiUrl + "Create",
 		};
 
 		return await _baseService.SendAsync<TransportDto, int>(request);
@@ -76,7 +76,7 @@ public class TransportsService : ITransportsService
 		{
 			Data = incentive,
 			ApiType = ApiType.PUT,
-			Url = TransportAPIBase + ApiUrl + "Update",
+			Url = TransportAPI + ApiUrl + "Update",
 		};
 
 		return await _baseService.SendAsync<TransportDto, int>(request);
@@ -87,7 +87,7 @@ public class TransportsService : ITransportsService
 		RequestDto<int> request = new()
 		{
 			ApiType = ApiType.DELETE,
-			Url = TransportAPIBase + ApiUrl + "Delete/" + incentiveId,
+			Url = TransportAPI + ApiUrl + "Delete/" + incentiveId,
 		};
 
 		return await _baseService.SendAsync<int, bool>(request);
@@ -99,7 +99,7 @@ public class TransportsService : ITransportsService
 		{
 			Data = incentive,
 			ApiType = ApiType.DELETE,
-			Url = TransportAPIBase + ApiUrl + "DeleteMany",
+			Url = TransportAPI + ApiUrl + "DeleteMany",
 		};
 
 		return await _baseService.SendAsync<DeleteTransportDto, bool>(request);

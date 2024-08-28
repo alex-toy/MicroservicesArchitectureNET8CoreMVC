@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.Auth;
 using Transactions.Core.Utils;
+using Transactions.Core.Utils.Tokens;
 using Transactions.Web.Services.Auth;
 
 namespace Transactions.Web.Controllers;

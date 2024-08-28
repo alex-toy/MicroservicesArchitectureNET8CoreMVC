@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
 using Transports.Api.Data;
 using Transports.Api.Dtos;
-using Transports.Api.Services;
+using Transports.Api.Services.Transports;
 
 namespace Transports.Api.Controllers;
 

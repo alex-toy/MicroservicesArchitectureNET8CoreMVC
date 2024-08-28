@@ -1,6 +1,6 @@
 ﻿using Transactions.Core.Dtos.Transports;
 
-namespace TransportCart.Api.Dtos;
+namespace Transactions.Core.Dtos.TransportCarts;
 
 public class CartDetailsDto
 {

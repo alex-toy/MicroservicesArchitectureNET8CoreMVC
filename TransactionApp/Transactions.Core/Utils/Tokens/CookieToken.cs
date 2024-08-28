@@ -1,6 +1,6 @@
 ﻿using Transactions.Core.Utils.Cookies;
 
-namespace Transactions.Core.Utils;
+namespace Transactions.Core.Utils.Tokens;
 
 public class CookieToken : ICookieToken
 {

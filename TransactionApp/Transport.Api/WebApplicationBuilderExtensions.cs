@@ -5,14 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Transactions.Core.Services;
+using Transactions.Core.Utils.Cookies;
 using Transports.Api.Data;
-using Transports.Api.Services;
+using Transactions.Core.Utils.Tokens;
+using Transports.Api.Services.Transports;
 
 namespace Transports.Api;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static void ConfigureDatabase(this WebApplicationBuilder builder)
+	public static void ConfigureHttpClient(this WebApplicationBuilder builder)
+	{
+		builder.Services.AddHttpClient();
+		builder.Services.AddHttpClient<ITransportService, TransportService>();
+	}
+
+	public static void ConfigureDatabase(this WebApplicationBuilder builder)
     {
         string DefaultConnectionString = builder.Configuration["ConnectionStrings:DefaultConnection"]!;
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(DefaultConnectionString));
@@ -26,8 +34,10 @@ public static class WebApplicationBuilderExtensions
     }
 
     public static void ConfigureServices(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddScoped<IBaseService, BaseService>();
+	{
+		builder.Services.AddScoped<ICookiesHelper, CookiesHelper>();
+		builder.Services.AddScoped<ICookieToken, CookieToken>();
+		builder.Services.AddScoped<IBaseService, BaseService>();
         builder.Services.AddScoped<ITransportService, TransportService>();
 	}
 

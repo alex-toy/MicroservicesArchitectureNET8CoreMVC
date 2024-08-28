@@ -7,8 +7,8 @@ using Transactions.Core.Services;
 using Transactions.Core.Services.Incentives;
 using Transactions.Core.Services.Transports;
 using Transactions.Core.Utils.Cookies;
-using Transactions.Core.Utils;
 using TransportCart.Api.Data;
+using Transactions.Core.Utils.Tokens;
 
 namespace TransportCart.Api;
 

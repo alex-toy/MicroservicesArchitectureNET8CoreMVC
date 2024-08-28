@@ -1,4 +1,5 @@
-﻿@model GetAllIncentivesVM
+﻿@using Transactions.Core.Utils
+@model GetAllIncentivesVM
 
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -33,9 +34,12 @@
 
 					<input type="submit" value="Filter" class="btn btn-success col-1" />
 				</form>
-				<div class="col-2 text-end">
-					<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Incentive</a>
-				</div>
+				@if (User.IsInRole(Constants.RoleAdmin))
+				{
+					<div class="col-2 text-end">
+						<a asp-action="Create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Incentive</a>
+					</div>
+				}
 			</div>
 		</div>
 		<table class="table">
@@ -73,9 +77,12 @@
 						@((incentive.Bonus).ToString("c"))
 					</td>
 					<td>
-						<a asp-action="Delete" asp-route-incentiveId="@incentive.IncentiveId" class="btn btn-danger">
-						<i class="bi bi-trash"></i>
-						</a>
+						@if (User.IsInRole(Constants.RoleAdmin))
+						{
+							<a asp-action="Delete" asp-route-incentiveId="@incentive.IncentiveId" class="btn btn-danger">
+								<i class="bi bi-trash"></i>
+							</a>
+						}
 					</td>
 				</tr>
 				}

@@ -20,7 +20,7 @@ public class IncentiveService : IIncentiveService
 		{
 			Data = filter,
 			ApiType = ApiType.POST,
-			Url = BonusAPIBase + ApiUrl + "GetAll",
+			Url = BonusAPI + ApiUrl + "GetAll",
 		};
 
 		return await _baseService.SendAsync<FilterIncentiveDto, List<IncentiveDto>>(request);
@@ -31,7 +31,7 @@ public class IncentiveService : IIncentiveService
 		RequestDto<int> request = new()
 		{
 			ApiType = ApiType.GET,
-			Url = BonusAPIBase + ApiUrl + "GetById/" + incentiveId,
+			Url = BonusAPI + ApiUrl + "GetById/" + incentiveId,
 		};
 
 		return await _baseService.SendAsync<int, IncentiveDto>(request);
@@ -42,7 +42,7 @@ public class IncentiveService : IIncentiveService
 		RequestDto<string> request = new()
 		{
 			ApiType = ApiType.GET,
-			Url = BonusAPIBase + ApiUrl + "GetByCode/" + incentiveCode,
+			Url = BonusAPI + ApiUrl + "GetByCode/" + incentiveCode,
 		};
 
 		return await _baseService.SendAsync<string, IncentiveDto>(request);
@@ -54,7 +54,7 @@ public class IncentiveService : IIncentiveService
 		{
 			Data = incentive,
 			ApiType = ApiType.POST,
-			Url = BonusAPIBase + ApiUrl + "Create",
+			Url = BonusAPI + ApiUrl + "Create",
 		};
 
 		return await _baseService.SendAsync<IncentiveDto, int>(request);
@@ -66,7 +66,7 @@ public class IncentiveService : IIncentiveService
 		{
 			Data = incentive,
 			ApiType = ApiType.PUT,
-			Url = BonusAPIBase + ApiUrl + "Update",
+			Url = BonusAPI + ApiUrl + "Update",
 		};
 
 		return await _baseService.SendAsync<IncentiveDto, int>(request);
@@ -77,7 +77,7 @@ public class IncentiveService : IIncentiveService
 		RequestDto<int> request = new()
 		{
 			ApiType = ApiType.DELETE,
-			Url = BonusAPIBase + ApiUrl + "Delete/" + incentiveId,
+			Url = BonusAPI + ApiUrl + "Delete/" + incentiveId,
 		};
 
 		return await _baseService.SendAsync<int, bool>(request);
@@ -89,7 +89,7 @@ public class IncentiveService : IIncentiveService
 		{
 			Data = incentive,
 			ApiType = ApiType.DELETE,
-			Url = BonusAPIBase + ApiUrl + "DeleteMany",
+			Url = BonusAPI + ApiUrl + "DeleteMany",
 		};
 
 		return await _baseService.SendAsync<DeleteIncentiveDto, bool>(request);

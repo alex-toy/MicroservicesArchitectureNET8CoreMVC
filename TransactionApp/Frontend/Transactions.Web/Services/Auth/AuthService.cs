@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = loginRequestDto,
-            Url = AuthAPIBase + ApiUrl + "login"
+            Url = AuthAPI + ApiUrl + "login"
         }, withBearer: false) ?? new ResponseDto<LoginResponseDto> { IsSuccess = false, ErrorMessage = "problem with login" };
     }
 
@@ -31,7 +31,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = registrationRequestDto,
-            Url = AuthAPIBase + ApiUrl + "register"
+            Url = AuthAPI + ApiUrl + "register"
         }, withBearer: false) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with register" };
     }
 
@@ -41,7 +41,7 @@ public class AuthService : IAuthService
         {
             ApiType = ApiType.POST,
             Data = roleAssignmentDto,
-            Url = AuthAPIBase + ApiUrl + "AssignRole"
+            Url = AuthAPI + ApiUrl + "AssignRole"
         }) ?? new ResponseDto<string> { IsSuccess = false, ErrorMessage = "problem with AssignRole" };
     }
 }

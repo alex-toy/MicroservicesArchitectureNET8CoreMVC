@@ -2,6 +2,10 @@ using Transports.Api;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+
+builder.ConfigureHttpClient();
+
 builder.ConfigureDatabase();
 
 builder.ConfigureMapper();

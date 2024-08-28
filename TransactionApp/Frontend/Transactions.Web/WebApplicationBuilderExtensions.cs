@@ -4,6 +4,7 @@ using Transactions.Core.Services.Incentives;
 using Transactions.Core.Services.Transports;
 using Transactions.Core.Utils;
 using Transactions.Core.Utils.Cookies;
+using Transactions.Core.Utils.Tokens;
 using Transactions.Web.Services.Auth;
 
 namespace Transactions.Web;
@@ -15,9 +16,6 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddHttpClient();
         builder.Services.AddHttpClient<IIncentiveService, IncentiveService>();
         builder.Services.AddHttpClient<IAuthService, AuthService>();
-        //builder.Services.AddHttpClient<ITransportService, TransportService>();
-        //builder.Services.AddHttpClient<ITransportCartService, TransportCartService>();
-        //builder.Services.AddHttpClient<IOrderService, OrderService>();
     }
 
     public static void ConfigureAPIBases(this WebApplicationBuilder builder, string[] args)
@@ -25,10 +23,11 @@ public static class WebApplicationBuilderExtensions
         using IHost host = Host.CreateDefaultBuilder(args).Build();
         IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
         
-        Constants.AuthAPIBase = config.GetValue<string>("ServiceUrls:AuthAPI")!;
-        Constants.BonusAPIBase = config.GetValue<string>("ServiceUrls:BonusAPI")!;
-        Constants.TransportAPIBase = config.GetValue<string>("ServiceUrls:TransportAPI")!;
-    }
+        Constants.AuthAPI = config.GetValue<string>("ServiceUrls:AuthAPI")!;
+        Constants.BonusAPI = config.GetValue<string>("ServiceUrls:BonusAPI")!;
+        Constants.TransportAPI = config.GetValue<string>("ServiceUrls:TransportAPI")!;
+        Constants.TransportAPI = config.GetValue<string>("ServiceUrls:TransportCartAPI")!;
+	}
 
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {

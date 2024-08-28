@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text;
 using Transactions.Core.Dtos;
-using Transactions.Core.Utils;
+using Transactions.Core.Utils.Tokens;
 using static Transactions.Core.Utils.Constants;
 
 namespace Transactions.Core.Services;

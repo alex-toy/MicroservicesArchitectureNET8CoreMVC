@@ -2,16 +2,15 @@
 
 public static class Constants
 {
-    public static string AuthAPIBase { get; set; }
-    public static string BonusAPIBase { get; set; }
-    public static string TransportAPIBase { get; set; }
-
-
+    public static string AuthAPI { get; set; }
+    public static string BonusAPI { get; set; }
+    public static string TransportAPI { get; set; }
+    public static string TransportCartAPI { get; set; }
     public static string TransactionAPIBase { get; set; }
-    public static string ShoppingCartAPIBase { get; set; }
 
     public const string RoleAdmin = "ADMIN";
     public const string RoleCustomer = "CUSTOMER";
+
     public const string TokenCookie = "JWTToken";
     public enum ApiType
     {

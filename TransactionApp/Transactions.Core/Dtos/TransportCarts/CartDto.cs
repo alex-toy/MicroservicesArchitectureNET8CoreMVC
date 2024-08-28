@@ -1,4 +1,4 @@
-﻿namespace TransportCart.Api.Dtos;
+﻿namespace Transactions.Core.Dtos.TransportCarts;
 
 public class CartDto
 {

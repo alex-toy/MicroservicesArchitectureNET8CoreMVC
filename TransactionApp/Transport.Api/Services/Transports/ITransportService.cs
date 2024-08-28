@@ -1,7 +1,7 @@
 ﻿using Transports.Api.Dtos;
 using Transports.Api.Models;
 
-namespace Transports.Api.Services;
+namespace Transports.Api.Services.Transports;
 
 public interface ITransportService
 {

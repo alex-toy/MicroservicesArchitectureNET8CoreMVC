@@ -1,4 +1,4 @@
-﻿namespace Transactions.Core.Utils;
+﻿namespace Transactions.Core.Utils.Tokens;
 
 public interface ICookieToken
 {
