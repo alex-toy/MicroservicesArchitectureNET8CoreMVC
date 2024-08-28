@@ -1,5 +1,4 @@
-﻿using Bonus.API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TransportCart.Api.Models;
 
 namespace TransportCart.Api.Data;

@@ -12,6 +12,7 @@ public class CartHeader
 
 	[NotMapped]
 	public double Bonus { get; set; }
+
 	[NotMapped]
 	public double CartTotal { get; set; }
 }

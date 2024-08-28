@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Transactions.Core.Services;
 using Transports.Api.Data;
 using Transports.Api.Services;
 
@@ -26,8 +27,9 @@ public static class WebApplicationBuilderExtensions
 
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddScoped<IBaseService, BaseService>();
         builder.Services.AddScoped<ITransportService, TransportService>();
-    }
+	}
 
     public static void ConfigureAuth(this WebApplicationBuilder builder)
     {

@@ -1,11 +1,37 @@
-var builder = WebApplication.CreateBuilder(args);
+using TransportCart.Api;
 
-// Add services to the container.
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.ConfigureHttpClient();
+
+builder.ConfigureDatabase();
+
+builder.ConfigureMapper();
+
+builder.ConfigureServices();
+
+//builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
+
+//builder.Services.AddScoped<IMessageBus, MessageBus>();
+
+//builder.Services.AddHttpClient("Transport", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TransportAPI"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+//builder.Services.AddHttpClient("incentive", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:IncentiveAPI"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.ConfigureAuth();
+
+builder.Services.AddAuthorization();
+
+
+
+
+
+
+
 
 var app = builder.Build();
 
@@ -17,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

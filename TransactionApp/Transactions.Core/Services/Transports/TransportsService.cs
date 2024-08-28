@@ -14,8 +14,18 @@ public class TransportsService : ITransportsService
 		_baseService = baseService;
 	}
 
-	public async Task<ResponseDto<List<TransportDto>>> GetAllAsync(FilterTransportDto filter)
+	public async Task<ResponseDto<List<TransportDto>>> GetAllAsync(FilterTransportDto? filter = null)
 	{
+		if (filter is null) filter = new FilterTransportDto() 
+		{ 
+			DistanceComparator = string.Empty,
+			DistanceKm = 0,
+			PriceComparator = string.Empty,
+			Price = 0,
+			To = string.Empty,
+			From = string.Empty,
+		};
+
 		RequestDto<FilterTransportDto> request = new()
 		{
 			Data = filter,

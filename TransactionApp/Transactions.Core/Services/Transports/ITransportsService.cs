@@ -5,7 +5,7 @@ namespace Transactions.Core.Services.Transports;
 
 public interface ITransportsService
 {
-	Task<ResponseDto<List<TransportDto>>> GetAllAsync(FilterTransportDto filter);
+	Task<ResponseDto<List<TransportDto>>> GetAllAsync(FilterTransportDto? filter);
 	Task<ResponseDto<TransportDto>> GetByIdAsync(int incentiveId);
 	Task<ResponseDto<TransportDto>> GetByCodeAsync(string incentiveCode);
 	Task<ResponseDto<int>> CreateAsync(TransportDto incentive);

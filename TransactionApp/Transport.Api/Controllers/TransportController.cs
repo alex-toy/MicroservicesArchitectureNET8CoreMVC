@@ -46,7 +46,6 @@ public class TransportController : ControllerBase
             TransportDto? TransportDto = _transportService.Get(i => i.TransportId == id);
             if (TransportDto is null) return new ResponseDto<TransportDto> { IsSuccess = false, ErrorMessage = "not found" };
             return new ResponseDto<TransportDto> { Result = TransportDto, IsSuccess = true };
-
         }
         catch (Exception ex)
         {

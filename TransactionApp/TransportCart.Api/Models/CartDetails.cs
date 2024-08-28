@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Transactions.Core.Dtos.Transports;
-using TransportCart.Api.Models;
 
-namespace Bonus.API.Models;
+namespace TransportCart.Api.Models;
 
 public class CartDetails
 {
@@ -15,7 +14,7 @@ public class CartDetails
 	[ForeignKey("CartHeaderId")]
 	public CartHeader CartHeader { get; set; }
 
-	public int ProductId { get; set; }
+	public int TransportId { get; set; }
 
 	[NotMapped]
 	public TransportDto Transport { get; set; }
