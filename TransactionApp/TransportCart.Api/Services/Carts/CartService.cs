@@ -39,7 +39,6 @@ public class CartService : ICartService
 		}
 
 		List<int> transportIds = cart.CartDetails.Select(x => x.TransportId).ToList();
-		// Implement get all transport having transportId in transportIds
 		ResponseDto<List<TransportDto>> response = await _transportsService.GetByIds(transportIds);
 		List<TransportDto> transportDtos = response.Result;
 

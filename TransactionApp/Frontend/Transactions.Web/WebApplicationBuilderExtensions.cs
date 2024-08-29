@@ -6,6 +6,8 @@ using Transactions.Core.Utils;
 using Transactions.Core.Utils.Cookies;
 using Transactions.Core.Utils.Tokens;
 using Transactions.Web.Services.Auth;
+using Transactions.Web.Services.Carts;
+using Transactions.Web.Services.Orders;
 
 namespace Transactions.Web;
 
@@ -37,7 +39,9 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IIncentiveService, IncentiveService>();
         builder.Services.AddScoped<ITransportsService, TransportsService>();
-    }
+        builder.Services.AddScoped<ICartService, CartService>();
+        //builder.Services.AddScoped<IOrderService, OrderService>();
+	}
 
     public static void ConfigureAuth(this WebApplicationBuilder builder)
     {

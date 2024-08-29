@@ -36,15 +36,14 @@ public class CartService : ICartService
 		});
 	}
 
-	public async Task<ResponseDto<bool>> GetCartByUserIdAsnyc(string userId)
+	public async Task<ResponseDto<CartDto>> GetCartByUserIdAsnyc(string userId)
 	{
-		return await _baseService.SendAsync<int, bool>(new RequestDto<int>()
+		return await _baseService.SendAsync<int, CartDto>(new RequestDto<int>()
 		{
 			ApiType = Constants.ApiType.GET,
 			Url = Constants.TransportCartAPI + ApiUrl + "GetCart/" + userId
 		});
 	}
-
 
 	public async Task<ResponseDto<bool>> RemoveFromCartAsync(int cartDetailsId)
 	{
@@ -55,7 +54,6 @@ public class CartService : ICartService
 			Url = Constants.TransportCartAPI + ApiUrl + "RemoveCart"
 		});
 	}
-
 
 	public async Task<ResponseDto<bool>> UpsertCartAsync(CartDto cartDto)
 	{
