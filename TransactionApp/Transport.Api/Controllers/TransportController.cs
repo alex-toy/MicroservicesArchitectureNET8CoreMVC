@@ -22,23 +22,37 @@ public class TransportController : ControllerBase
         _db = db;
         _mapper = mapper;
         _transportService = incentiveService;
-    }
+	}
 
-    [HttpPost("GetAll")]
-    public ResponseDto<List<TransportDto>> GetAll([FromBody] FilterTransportDto filter)
-    {
-        try
-        {
-            List<TransportDto> transportDtos = _transportService.GetAll(filter);
-            return new ResponseDto<List<TransportDto>> { Result = transportDtos, IsSuccess = true };
-        }
-        catch (Exception ex)
-        {
-            return new ResponseDto<List<TransportDto>> { IsSuccess = false, ErrorMessage = ex.Message };
-        }
-    }
+	[HttpPost("GetAll")]
+	public ResponseDto<List<TransportDto>> GetAll([FromBody] FilterTransportDto filter)
+	{
+		try
+		{
+			List<TransportDto> transportDtos = _transportService.GetAll(filter);
+			return new ResponseDto<List<TransportDto>> { Result = transportDtos, IsSuccess = true };
+		}
+		catch (Exception ex)
+		{
+			return new ResponseDto<List<TransportDto>> { IsSuccess = false, ErrorMessage = ex.Message };
+		}
+	}
 
-    [HttpGet("GetById/{id:int}")]
+	[HttpPost("GetByIds")]
+	public ResponseDto<List<TransportDto>> GetByIds([FromBody] IEnumerable<int> transportIds)
+	{
+		try
+		{
+			List<TransportDto> transportDtos = _transportService.GetByIds(transportIds);
+			return new ResponseDto<List<TransportDto>> { Result = transportDtos, IsSuccess = true };
+		}
+		catch (Exception ex)
+		{
+			return new ResponseDto<List<TransportDto>> { IsSuccess = false, ErrorMessage = ex.Message };
+		}
+	}
+
+	[HttpGet("GetById/{id:int}")]
     public ResponseDto<TransportDto> GetById(int id)
     {
         try

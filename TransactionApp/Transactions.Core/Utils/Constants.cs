@@ -6,7 +6,7 @@ public static class Constants
     public static string BonusAPI { get; set; }
     public static string TransportAPI { get; set; }
     public static string TransportCartAPI { get; set; }
-    public static string TransactionAPIBase { get; set; }
+    public static string OrderAPI { get; set; }
 
     public const string RoleAdmin = "ADMIN";
     public const string RoleCustomer = "CUSTOMER";

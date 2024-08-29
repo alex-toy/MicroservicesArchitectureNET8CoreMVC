@@ -33,15 +33,21 @@ public class TransportService : ITransportService
         _db.SaveChanges();
 
         return transport.TransportId;
-    }
+	}
 
-    public List<TransportDto> GetAll()
-    {
-        IEnumerable<Transport> Transports = _db.Transports.ToList();
-        return _mapper.Map<List<TransportDto>>(Transports);
-    }
+	public List<TransportDto> GetAll()
+	{
+		IEnumerable<Transport> Transports = _db.Transports.ToList();
+		return _mapper.Map<List<TransportDto>>(Transports);
+	}
 
-    public List<TransportDto> GetAll(FilterTransportDto filter)
+	public List<TransportDto> GetByIds(IEnumerable<int> transportIds)
+	{
+		IEnumerable<Transport> Transports = _db.Transports.Where(x => transportIds.Contains(x.TransportId));
+		return _mapper.Map<List<TransportDto>>(Transports);
+	}
+
+	public List<TransportDto> GetAll(FilterTransportDto filter)
     {
         Func<Transport, bool>? transportPredicate = transport =>
         {

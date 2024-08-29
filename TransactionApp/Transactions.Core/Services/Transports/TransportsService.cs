@@ -16,8 +16,8 @@ public class TransportsService : ITransportsService
 
 	public async Task<ResponseDto<List<TransportDto>>> GetAllAsync(FilterTransportDto? filter = null)
 	{
-		if (filter is null) filter = new FilterTransportDto() 
-		{ 
+		if (filter is null) filter = new FilterTransportDto()
+		{
 			DistanceComparator = string.Empty,
 			DistanceKm = 0,
 			PriceComparator = string.Empty,
@@ -34,6 +34,18 @@ public class TransportsService : ITransportsService
 		};
 
 		return await _baseService.SendAsync<FilterTransportDto, List<TransportDto>>(request);
+	}
+
+	public async Task<ResponseDto<List<TransportDto>>> GetByIds(IEnumerable<int> transportIds)
+	{
+		RequestDto<IEnumerable<int>> request = new()
+		{
+			Data = transportIds,
+			ApiType = ApiType.POST,
+			Url = TransportAPI + ApiUrl + "GetByIds",
+		};
+
+		return await _baseService.SendAsync<IEnumerable<int>, List<TransportDto>>(request);
 	}
 
 	public async Task<ResponseDto<TransportDto>> GetByIdAsync(int incentiveId)

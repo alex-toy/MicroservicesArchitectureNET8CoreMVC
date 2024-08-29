@@ -8,6 +8,7 @@ namespace Transactions.Web.Services.Auth;
 public class AuthService : IAuthService
 {
     private readonly IBaseService _baseService;
+
     private const string ApiUrl = "/api/auth/";
 
     public AuthService(IBaseService baseService)

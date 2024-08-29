@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TransportCart.Api.Dtos;
+using Transactions.Core.Dtos.TransportCarts;
 using TransportCart.Api.Models;
 
 namespace TransportCart.Api;

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.TransportCarts;
-using TransportCart.Api.Data;
 using TransportCart.Api.Services.Carts;
 
 namespace TransportCart.Api.Controllers;
@@ -11,18 +10,14 @@ namespace TransportCart.Api.Controllers;
 [ApiController]
 public class TransportCartController
 {
-	private IMapper _mapper;
-	private readonly AppDbContext _db;
 	private ICartService _cartService;
 	private IConfiguration _configuration;
 	//private readonly IMessageBus _messageBus;
 
 	public TransportCartController(
-		IMapper mapper, IConfiguration configuration, AppDbContext db, ICartService cartService)
+		IMapper mapper, IConfiguration configuration, ICartService cartService)
 	{
-		_mapper = mapper;
 		_configuration = configuration;
-		_db = db;
 		_cartService = cartService;
 	}
 
@@ -69,48 +64,33 @@ public class TransportCartController
 		}
 	}
 
-	//[HttpPost("RemoveCart")]
-	//public async Task<ResponseDto> RemoveCart([FromBody] int cartDetailsId)
-	//{
-	//	try
-	//	{
-	//		CartDetails cartDetails = _db.CartDetails
-	//		   .First(u => u.CartDetailsId == cartDetailsId);
+	[HttpPost("RemoveCart")]
+	public async Task<ResponseDto<bool>> RemoveCart([FromBody] int cartDetailsId)
+	{
+		try
+		{
+			await _cartService.RemoveCart(cartDetailsId);
 
-	//		int totalCountofCartItem = _db.CartDetails.Where(u => u.CartHeaderId == cartDetails.CartHeaderId).Count();
-	//		_db.CartDetails.Remove(cartDetails);
-	//		if (totalCountofCartItem == 1)
-	//		{
-	//			var cartHeaderToRemove = await _db.CartHeaders
-	//			   .FirstOrDefaultAsync(u => u.CartHeaderId == cartDetails.CartHeaderId);
+			return new ResponseDto<bool>() { IsSuccess = true };
+		}
+		catch (Exception ex)
+		{
+			return new ResponseDto<bool> { IsSuccess = false, Result = false, ErrorMessage = ex.Message };
+		}
+	}
 
-	//			_db.CartHeaders.Remove(cartHeaderToRemove);
-	//		}
-	//		await _db.SaveChangesAsync();
+	[HttpPost("EmailCartRequest")]
+	public async Task<ResponseDto<bool>> EmailCartRequest([FromBody] CartDto cartDto)
+	{
+		try
+		{
+			//await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
 
-	//		_response.Result = true;
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		_response.Message = ex.Message.ToString();
-	//		_response.IsSuccess = false;
-	//	}
-	//	return _response;
-	//}
-
-	//[HttpPost("EmailCartRequest")]
-	//public async Task<object> EmailCartRequest([FromBody] CartDto cartDto)
-	//{
-	//	try
-	//	{
-	//		await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
-	//		_response.Result = true;
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		_response.IsSuccess = false;
-	//		_response.Message = ex.ToString();
-	//	}
-	//	return _response;
-	//}
+			return new ResponseDto<bool>() { IsSuccess = true };
+		}
+		catch (Exception ex)
+		{
+			return new ResponseDto<bool> { IsSuccess = false, Result = false, ErrorMessage = ex.Message };
+		}
+	}
 }

@@ -9,6 +9,8 @@ using Transactions.Core.Services.Transports;
 using Transactions.Core.Utils.Cookies;
 using TransportCart.Api.Data;
 using Transactions.Core.Utils.Tokens;
+using TransportCart.Api.Services.Carts;
+using Transactions.Core.Utils;
 
 namespace TransportCart.Api;
 
@@ -18,6 +20,17 @@ public static class WebApplicationBuilderExtensions
 	{
 		string DefaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 		builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(DefaultConnectionString));
+	}
+
+	public static void ConfigureAPIBases(this WebApplicationBuilder builder, string[] args)
+	{
+		using IHost host = Host.CreateDefaultBuilder(args).Build();
+		IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+
+		Constants.AuthAPI = config.GetValue<string>("ServiceUrls:AuthAPI")!;
+		Constants.BonusAPI = config.GetValue<string>("ServiceUrls:BonusAPI")!;
+		Constants.TransportAPI = config.GetValue<string>("ServiceUrls:TransportAPI")!;
+		Constants.TransportCartAPI = config.GetValue<string>("ServiceUrls:TransportCartAPI")!;
 	}
 
 	public static void ConfigureMapper(this WebApplicationBuilder builder)
@@ -40,6 +53,7 @@ public static class WebApplicationBuilderExtensions
 		builder.Services.AddScoped<ICookieToken, CookieToken>();
 		builder.Services.AddScoped<ITransportsService, TransportsService>();
 		builder.Services.AddScoped<IIncentiveService, IncentiveService>();
+		builder.Services.AddScoped<ICartService, CartService>();
 	}
 
 	public static void ConfigureAuth(this WebApplicationBuilder builder)

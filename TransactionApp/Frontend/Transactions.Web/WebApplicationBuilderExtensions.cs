@@ -26,7 +26,7 @@ public static class WebApplicationBuilderExtensions
         Constants.AuthAPI = config.GetValue<string>("ServiceUrls:AuthAPI")!;
         Constants.BonusAPI = config.GetValue<string>("ServiceUrls:BonusAPI")!;
         Constants.TransportAPI = config.GetValue<string>("ServiceUrls:TransportAPI")!;
-        Constants.TransportAPI = config.GetValue<string>("ServiceUrls:TransportCartAPI")!;
+        Constants.TransportCartAPI = config.GetValue<string>("ServiceUrls:TransportCartAPI")!;
 	}
 
     public static void ConfigureServices(this WebApplicationBuilder builder)

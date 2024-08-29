@@ -10,5 +10,6 @@ public interface ITransportService
     List<TransportDto> GetAll(FilterTransportDto filter);
     TransportDto? Get(Func<Transport, bool> predicate);
     bool Delete(int incentiveId);
-    //bool DeleteMany(DeleteIncentiveDto incentive);
+	List<TransportDto> GetByIds(IEnumerable<int> transportIds);
+	//bool DeleteMany(DeleteIncentiveDto incentive);
 }

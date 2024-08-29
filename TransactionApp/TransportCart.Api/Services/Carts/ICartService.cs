@@ -7,4 +7,5 @@ public interface ICartService
 	Task ApplyIncentive(CartDto cartDto);
 	Task CartUpsert(CartDto cartDto);
 	Task<CartDto> GetByUserId(string userId);
+	Task RemoveCart(int cartDetailsId);
 }
