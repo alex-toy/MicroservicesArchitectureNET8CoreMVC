@@ -36,7 +36,7 @@ public class TransportsService : ITransportsService
 		return await _baseService.SendAsync<FilterTransportDto, List<TransportDto>>(request);
 	}
 
-	public async Task<ResponseDto<List<TransportDto>>> GetByIds(IEnumerable<int> transportIds)
+	public async Task<ResponseDto<List<TransportDto>>> GetByTransportIds(IEnumerable<int> transportIds)
 	{
 		RequestDto<IEnumerable<int>> request = new()
 		{

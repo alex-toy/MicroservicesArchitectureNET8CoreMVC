@@ -12,5 +12,5 @@ public interface ITransportsService
 	Task<ResponseDto<int>> UpdateAsync(TransportDto incentive);
 	Task<ResponseDto<bool>> DeleteAsync(int incentiveId);
 	Task<ResponseDto<bool>> DeleteManyAsync(DeleteTransportDto incentive);
-	Task<ResponseDto<List<TransportDto>>> GetByIds(IEnumerable<int> transportIds);
+	Task<ResponseDto<List<TransportDto>>> GetByTransportIds(IEnumerable<int> transportIds);
 }

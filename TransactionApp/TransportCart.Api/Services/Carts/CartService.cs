@@ -57,18 +57,18 @@ public class CartService : ICartService
 
 	public async Task CartUpsert(CartDto cartDto)
 	{
-		CartHeader? cartHeaderFromDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(u => u.UserId == cartDto.CartHeader.UserId);
-		if (cartHeaderFromDb is null)
+		CartHeader? cartHeaderDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(u => u.UserId == cartDto.CartHeader.UserId);
+		if (cartHeaderDb is null)
 		{
 			await CreateCart(cartDto);
 		}
 		else
 		{
-			CartDetails? cartDetailsFromDb = await GetCartDetails(cartDto, cartHeaderFromDb);
+			CartDetails? cartDetailsFromDb = await GetCartDetails(cartDto, cartHeaderDb);
 
 			if (cartDetailsFromDb is null)
 			{
-				await CreateCartDetails(cartDto, cartHeaderFromDb);
+				await CreateCartDetails(cartDto, cartHeaderDb);
 			}
 			else
 			{
@@ -83,18 +83,22 @@ public class CartService : ICartService
 
 		int totalCountofCartItem = _db.CartDetails.Where(u => u.CartHeaderId == cartDetails.CartHeaderId).Count();
 		_db.CartDetails.Remove(cartDetails);
+
 		if (totalCountofCartItem == 1)
 		{
 			CartHeader? cartHeaderToRemove = await _db.CartHeaders.FirstOrDefaultAsync(u => u.CartHeaderId == cartDetails.CartHeaderId);
 
 			if (cartHeaderToRemove is not null) _db.CartHeaders.Remove(cartHeaderToRemove);
 		}
+
 		await _db.SaveChangesAsync();
 	}
 
 	private async Task UpdateCartDetails(CartDto cartDto, CartDetails? cartDetailsFromDb)
-	{
-		cartDto.CartDetails.First().Count += cartDetailsFromDb.Count;
+    {
+        if (cartDto.CartDetails is null || cartDetailsFromDb is null) return;
+
+        cartDto.CartDetails.First().Count += cartDetailsFromDb.Count;
 		cartDto.CartDetails.First().CartHeaderId = cartDetailsFromDb.CartHeaderId;
 		cartDto.CartDetails.First().CartDetailsId = cartDetailsFromDb.CartDetailsId;
 		_db.CartDetails.Update(_mapper.Map<CartDetails>(cartDto.CartDetails.First()));
@@ -102,8 +106,9 @@ public class CartService : ICartService
 	}
 
 	private async Task CreateCartDetails(CartDto cartDto, CartHeader? cartHeaderFromDb)
-	{
-		cartDto.CartDetails.First().CartHeaderId = cartHeaderFromDb.CartHeaderId;
+    {
+        if (cartDto.CartDetails is null || cartHeaderFromDb is null) return;
+        cartDto.CartDetails.First().CartHeaderId = cartHeaderFromDb.CartHeaderId;
 		_db.CartDetails.Add(_mapper.Map<CartDetails>(cartDto.CartDetails.First()));
 		await _db.SaveChangesAsync();
 	}
@@ -123,6 +128,9 @@ public class CartService : ICartService
 		CartHeader cartHeader = _mapper.Map<CartHeader>(cartDto.CartHeader);
 		_db.CartHeaders.Add(cartHeader);
 		await _db.SaveChangesAsync();
+
+		if (cartDto.CartDetails is null) return;
+
 		cartDto.CartDetails.First().CartHeaderId = cartHeader.CartHeaderId;
 		_db.CartDetails.Add(_mapper.Map<CartDetails>(cartDto.CartDetails.First()));
 		await _db.SaveChangesAsync();
@@ -131,7 +139,7 @@ public class CartService : ICartService
     private async Task SetPriceDistanceCountData(CartDto cart)
     {
         List<int> transportIds = cart.CartDetails?.Select(x => x.TransportId).ToList() ?? new List<int>();
-        ResponseDto<List<TransportDto>> response = await _transportsService.GetByIds(transportIds);
+        ResponseDto<List<TransportDto>> response = await _transportsService.GetByTransportIds(transportIds);
         List<TransportDto> transportDtos = response.Result;
 
 		if (cart.CartDetails is null) return;
