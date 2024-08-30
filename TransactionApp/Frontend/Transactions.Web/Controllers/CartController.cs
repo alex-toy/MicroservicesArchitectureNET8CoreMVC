@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.TransportCarts;
@@ -20,15 +19,19 @@ public class CartController : Controller
 
 	[Authorize]
 	public async Task<IActionResult> CartIndex()
-	{
-		return View(await LoadCartDtoBasedOnLoggedInUser());
+    {
+        string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+        CartDto cartDto =  await _cartService.GetUserCartDto(userId);
+        return View(cartDto);
 	}
 
-	//[Authorize]
-	//public async Task<IActionResult> Checkout()
-	//{
-	//	return View(await LoadCartDtoBasedOnLoggedInUser());
-	//}
+	[Authorize]
+	public async Task<IActionResult> Checkout()
+    {
+        string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+        CartDto cartDto = await _cartService.GetUserCartDto(userId);
+        return View(cartDto);
+	}
 
 	//[HttpPost]
 	//[ActionName("Checkout")]
@@ -82,30 +85,28 @@ public class CartController : Controller
 	//	return View(orderId);
 	//}
 
-	//public async Task<IActionResult> Remove(int cartDetailsId)
-	//{
-	//	var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
-	//	ResponseDto? response = await _cartService.RemoveFromCartAsync(cartDetailsId);
-	//	if (response != null & response.IsSuccess)
-	//	{
-	//		TempData["success"] = "Cart updated successfully";
-	//		return RedirectToAction(nameof(CartIndex));
-	//	}
-	//	return View();
-	//}
+	public async Task<IActionResult> Remove(int cartDetailsId)
+	{
+        string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+		ResponseDto<bool> response = await _cartService.RemoveFromCartAsync(cartDetailsId);
 
-	//[HttpPost]
-	//public async Task<IActionResult> ApplyCoupon(CartDto cartDto)
-	//{
+        if (!response.IsSuccess) return View();
 
-	//	ResponseDto? response = await _cartService.ApplyCouponAsync(cartDto);
-	//	if (response != null & response.IsSuccess)
-	//	{
-	//		TempData["success"] = "Cart updated successfully";
-	//		return RedirectToAction(nameof(CartIndex));
-	//	}
-	//	return View();
-	//}
+        TempData["success"] = "Transport removed successfully";
+        return RedirectToAction(nameof(CartIndex));
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> ApplyIncentive(CartDto cartDto)
+	{
+		ResponseDto<bool> response = await _cartService.ApplyIncentiveAsync(cartDto);
+
+        if (!response.IsSuccess) return View();
+
+        TempData["success"] = "Incentive applied successfully";
+
+        return RedirectToAction(nameof(CartIndex));
+	}
 
 	//[HttpPost]
 	//public async Task<IActionResult> EmailCart(CartDto cartDto)
@@ -121,29 +122,15 @@ public class CartController : Controller
 	//	return View();
 	//}
 
-	//[HttpPost]
-	//public async Task<IActionResult> RemoveCoupon(CartDto cartDto)
-	//{
-	//	cartDto.CartHeader.CouponCode = "";
-	//	ResponseDto? response = await _cartService.ApplyCouponAsync(cartDto);
-	//	if (response != null & response.IsSuccess)
-	//	{
-	//		TempData["success"] = "Cart updated successfully";
-	//		return RedirectToAction(nameof(CartIndex));
-	//	}
-	//	return View();
-	//}
-
-	private async Task<CartDto> LoadCartDtoBasedOnLoggedInUser()
+	[HttpPost]
+	public async Task<IActionResult> RemoveIncentive(CartDto cartDto)
 	{
-		string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+		cartDto.CartHeader.IncentiveCode = "";
+		ResponseDto<bool> response = await _cartService.ApplyIncentiveAsync(cartDto);
 
-		if (string.IsNullOrEmpty(userId)) return new CartDto();
+		if (!response.IsSuccess) return View();
 
-		ResponseDto<CartDto> response = await _cartService.GetCartByUserIdAsnyc(userId);
-
-		if (!response.IsSuccess || response.Result is null) return new CartDto();
-
-		return response.Result;
+        TempData["success"] = "Cart updated successfully";
+        return RedirectToAction(nameof(CartIndex));
 	}
 }

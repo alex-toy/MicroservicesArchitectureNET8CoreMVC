@@ -9,7 +9,7 @@ public class CartDetailsDto
 
 	public int CartHeaderId { get; set; }
 
-	public CartHeaderDto CartHeader { get; set; }
+	//public CartHeaderDto CartHeader { get; set; }
 
 
 	public int TransportId { get; set; }

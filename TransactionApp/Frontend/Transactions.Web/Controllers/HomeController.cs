@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Transactions.Core.Dtos;
+using Transactions.Core.Dtos.TransportCarts;
 using Transactions.Core.Dtos.Transports;
 using Transactions.Core.Services.Transports;
 using Transactions.Web.Models;
+using Transactions.Web.Services.Carts;
 
 namespace Transactions.Web.Controllers
 {
@@ -11,15 +15,16 @@ namespace Transactions.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 		private readonly ITransportsService _productService;
-		//private readonly ICartService _cartService;
+        private readonly ICartService _cartService;
 
-		public HomeController(ILogger<HomeController> logger, ITransportsService productService)
-		{
-			_logger = logger;
-			_productService = productService;
-		}
+        public HomeController(ILogger<HomeController> logger, ITransportsService productService, ICartService cartService)
+        {
+            _logger = logger;
+            _productService = productService;
+            _cartService = cartService;
+        }
 
-		public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
 		{
 			List<TransportDto>? transports = new();
 
@@ -37,7 +42,7 @@ namespace Transactions.Web.Controllers
 			return View(transports);
 		}
 
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> TransportDetails(int transportId)
         {
             TransportDto model = new();
@@ -56,42 +61,41 @@ namespace Transactions.Web.Controllers
             return View(model);
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //[ActionName("ProductDetails")]
-        //public async Task<IActionResult> TransportDetails(ProductDto productDto)
-        //{
-        //	CartDto cartDto = new CartDto()
-        //	{
-        //		CartHeader = new CartHeaderDto
-        //		{
-        //			UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value
-        //		}
-        //	};
+        [Authorize]
+        [HttpPost]
+        [ActionName("TransportDetails")]
+        public async Task<IActionResult> TransportDetails(TransportDto productDto)
+        {
+            CartDto cartDto = new CartDto()
+            {
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value
+                }
+            };
 
-        //	CartDetailsDto cartDetails = new CartDetailsDto()
-        //	{
-        //		Count = productDto.Count,
-        //		ProductId = productDto.ProductId,
-        //	};
+            CartDetailsDto cartDetails = new CartDetailsDto()
+            {
+                Count = productDto.Count,
+                TransportId = productDto.TransportId,
+            };
 
-        //	List<CartDetailsDto> cartDetailsDtos = new() { cartDetails };
-        //	cartDto.CartDetails = cartDetailsDtos;
+            cartDto.CartDetails = new List<CartDetailsDto>() { cartDetails };
 
-        //	ResponseDto? response = await _cartService.UpsertCartAsync(cartDto);
+            ResponseDto<bool>? response = await _cartService.UpsertCartAsync(cartDto);
 
-        //	if (response != null && response.IsSuccess)
-        //	{
-        //		TempData["success"] = "Item has been added to the Shopping Cart";
-        //		return RedirectToAction(nameof(Index));
-        //	}
-        //	else
-        //	{
-        //		TempData["error"] = response?.Message;
-        //	}
+            if (response.IsSuccess)
+            {
+                TempData["success"] = "Item has been added to the Shopping Cart";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["error"] = response?.ErrorMessage;
+            }
 
-        //	return View(productDto);
-        //}
+            return View(productDto);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

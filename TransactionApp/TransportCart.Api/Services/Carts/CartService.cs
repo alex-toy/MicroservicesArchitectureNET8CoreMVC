@@ -27,43 +27,27 @@ public class CartService : ICartService
 	}
 
 	public async Task<CartDto> GetByUserId(string userId)
-	{
-		CartHeader? cartHeader = _db.CartHeaders.FirstOrDefault(cartHeader => cartHeader.UserId == userId);
-		CartHeaderDto cartHeaderDto = _mapper.Map<CartHeaderDto>(cartHeader);
-		CartDto cart = new() { CartHeader = cartHeaderDto };
+    {
+        CartHeader? cartHeader = _db.CartHeaders.FirstOrDefault(cartHeader => cartHeader.UserId == userId);
+        CartHeaderDto cartHeaderDto = _mapper.Map<CartHeaderDto>(cartHeader);
+        CartDto cart = new() { CartHeader = cartHeaderDto };
 
-		if (cartHeaderDto is not null)
-		{
-			List<CartDetails> cartDetails = _db.CartDetails.Where(u => u.CartHeaderId == cart.CartHeader.CartHeaderId).ToList();
-			cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(cartDetails);
-		}
+        if (cartHeaderDto is not null)
+        {
+            List<CartDetails> cartDetails = _db.CartDetails.Where(u => u.CartHeaderId == cart.CartHeader.CartHeaderId).ToList();
+            cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(cartDetails);
+        }
 
-		List<int> transportIds = cart.CartDetails.Select(x => x.TransportId).ToList();
-		ResponseDto<List<TransportDto>> response = await _transportsService.GetByIds(transportIds);
-		List<TransportDto> transportDtos = response.Result;
+        await SetPriceDistanceCountData(cart);
 
-		foreach (CartDetailsDto cartDetail in cart.CartDetails)
-		{
-			cartDetail.Transport = transportDtos.FirstOrDefault(u => u.TransportId == cartDetail.TransportId);
-			cart.CartHeader.TotalPrice += cartDetail.Count * cartDetail.Transport.Price;
-			cart.CartHeader.TotalDistance += cartDetail.Count * cartDetail.Transport.DistanceKm;
-			cart.CartHeader.TransportCount += cartDetail.Count;
-		}
+        if (string.IsNullOrEmpty(cart.CartHeader.IncentiveCode)) return cart;
 
-		if (string.IsNullOrEmpty(cart.CartHeader.IncentiveCode)) return cart;
+        await SetIncentive(cart);
 
-		ResponseDto<IncentiveDto> response_incentive = await _incentiveService.GetByCodeAsync(cart.CartHeader.IncentiveCode);
-		IncentiveDto incentive = response_incentive.Result;
-		if (incentive is not null && cart.CartHeader.TransportCount > incentive.MinTransportCount && cart.CartHeader.TotalDistance > incentive.MinKilometersCount)
-		{
-			cart.CartHeader.TotalPrice += incentive.Bonus;
-			cart.CartHeader.Bonus = incentive.Bonus;
-		}
+        return cart;
+    }
 
-		return cart;
-	}
-
-	public async Task ApplyIncentive(CartDto cartDto)
+    public async Task ApplyIncentive(CartDto cartDto)
 	{
 		CartHeader cartFromDb = await _db.CartHeaders.FirstAsync(u => u.UserId == cartDto.CartHeader.UserId);
 		cartFromDb.IncentiveCode = cartDto.CartHeader.IncentiveCode;
@@ -126,9 +110,12 @@ public class CartService : ICartService
 
 	private async Task<CartDetails?> GetCartDetails(CartDto cartDto, CartHeader? cartHeaderFromDb)
 	{
-		return await _db.CartDetails
+		if (cartHeaderFromDb is null) return null;
+        int? transportId = cartDto.CartDetails?.First().TransportId;
+		if (transportId is null) return null;
+        return await _db.CartDetails
 			.AsNoTracking()
-			.FirstOrDefaultAsync(u => u.TransportId == cartDto.CartDetails.First().TransportId && u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
+			.FirstOrDefaultAsync(u => u.TransportId == transportId && u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
 	}
 
 	private async Task CreateCart(CartDto cartDto)
@@ -139,5 +126,35 @@ public class CartService : ICartService
 		cartDto.CartDetails.First().CartHeaderId = cartHeader.CartHeaderId;
 		_db.CartDetails.Add(_mapper.Map<CartDetails>(cartDto.CartDetails.First()));
 		await _db.SaveChangesAsync();
-	}
+    }
+
+    private async Task SetPriceDistanceCountData(CartDto cart)
+    {
+        List<int> transportIds = cart.CartDetails?.Select(x => x.TransportId).ToList() ?? new List<int>();
+        ResponseDto<List<TransportDto>> response = await _transportsService.GetByIds(transportIds);
+        List<TransportDto> transportDtos = response.Result;
+
+		if (cart.CartDetails is null) return;
+
+        foreach (CartDetailsDto cartDetail in cart.CartDetails)
+        {
+            cartDetail.Transport = transportDtos.FirstOrDefault(u => u.TransportId == cartDetail.TransportId);
+            cart.CartHeader.TotalPrice += cartDetail.Count * (cartDetail.Transport?.Price ?? 0);
+            cart.CartHeader.TotalDistance += cartDetail.Count * (cartDetail.Transport?.DistanceKm ?? 0);
+            cart.CartHeader.TransportCount += cartDetail.Count;
+        }
+    }
+
+    private async Task SetIncentive(CartDto cart)
+    {
+        string? incentiveCode = cart.CartHeader.IncentiveCode;
+		if (string.IsNullOrEmpty(incentiveCode)) return;
+        ResponseDto<IncentiveDto> response_incentive = await _incentiveService.GetByCodeAsync(incentiveCode);
+        IncentiveDto incentive = response_incentive.Result;
+        if (incentive is not null && cart.CartHeader.TransportCount > incentive.MinTransportCount && cart.CartHeader.TotalDistance > incentive.MinKilometersCount)
+        {
+            cart.CartHeader.TotalPrice += incentive.Bonus;
+            cart.CartHeader.Bonus = incentive.Bonus;
+        }
+    }
 }

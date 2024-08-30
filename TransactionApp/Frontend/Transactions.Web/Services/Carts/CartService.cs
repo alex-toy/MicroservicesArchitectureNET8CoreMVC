@@ -16,14 +16,14 @@ public class CartService : ICartService
 		_baseService = baseService;
 	}
 
-	public async Task<ResponseDto<bool>> ApplyCouponAsync(CartDto cartDto)
+	public async Task<ResponseDto<bool>> ApplyIncentiveAsync(CartDto cartDto)
 	{
 		return await _baseService.SendAsync<CartDto, bool>(new RequestDto<CartDto>()
 		{
 			ApiType = Constants.ApiType.POST,
 			Data = cartDto,
-			Url = Constants.TransportCartAPI + ApiUrl + "ApplyCoupon"
-		});
+			Url = Constants.TransportCartAPI + ApiUrl + "ApplyIncentive"
+        });
 	}
 
 	public async Task<ResponseDto<bool>> EmailCartAsync(CartDto cartDto)
@@ -63,5 +63,16 @@ public class CartService : ICartService
 			Data = cartDto,
 			Url = Constants.TransportCartAPI + ApiUrl + "CartUpsert"
 		});
-	}
+    }
+
+    public async Task<CartDto> GetUserCartDto(string? userId)
+    {
+        if (string.IsNullOrEmpty(userId)) return new CartDto();
+
+        ResponseDto<CartDto> response = await GetCartByUserIdAsnyc(userId);
+
+        if (!response.IsSuccess || response.Result is null) return new CartDto();
+
+        return response.Result;
+    }
 }

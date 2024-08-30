@@ -8,7 +8,8 @@ namespace Transactions.Web.Services.Carts
 		Task<ResponseDto<CartDto>> GetCartByUserIdAsnyc(string userId);
 		Task<ResponseDto<bool>> UpsertCartAsync(CartDto cartDto);
 		Task<ResponseDto<bool>> RemoveFromCartAsync(int cartDetailsId);
-		Task<ResponseDto<bool>> ApplyCouponAsync(CartDto cartDto);
+		Task<ResponseDto<bool>> ApplyIncentiveAsync(CartDto cartDto);
 		Task<ResponseDto<bool>> EmailCartAsync(CartDto cartDto);
-	}
+        Task<CartDto> GetUserCartDto(string? userId);
+    }
 }
