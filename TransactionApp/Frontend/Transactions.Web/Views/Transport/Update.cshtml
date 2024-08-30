@@ -1,10 +1,11 @@
 ﻿@using Transactions.Core.Dtos.Transports
 @model TransportDto
 
-<form asp-action="Create">
+<form asp-action="Update">
+    <input asp-for="TransportId" hidden />
     <br />
     <div class="container border p-3">
-        <h1 class="text-white text-center">Create Transport</h1>
+        <h1 class="text-white text-center">Update Transport</h1>
 
         <hr />
         <div class="row">
@@ -54,7 +55,7 @@
             </div>
 
             <div class="col-5">
-                <input type="submit" value="Create" class="btn btn-success form-control" />
+                <input type="submit" value="Update" class="btn btn-success form-control" />
             </div>
         </div>
     </div>

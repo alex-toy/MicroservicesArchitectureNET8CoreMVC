@@ -56,7 +56,7 @@ public class TransportCartController
 		try
 		{
 			await _cartService.CartUpsert(cartDto);
-			return new ResponseDto<bool>() { IsSuccess = true};  
+			return new ResponseDto<bool>() { IsSuccess = true }; 
 		}
 		catch (Exception ex)
 		{

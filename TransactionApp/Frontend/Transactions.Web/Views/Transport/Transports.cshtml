@@ -34,6 +34,7 @@
 
 					<input type="submit" value="Filter" class="btn btn-success col-1" />
 				</form>
+
 				@if (User.IsInRole(Constants.RoleAdmin))
 				{
 					<div class="col-2 text-end">
@@ -61,25 +62,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(var incentive in Model.Transports)
+				@foreach(var transport in Model.Transports)
 				{
 				<tr>
 					<td>
-						@incentive.From
+						@transport.From
 					</td>
 					<td>
-						@incentive.To
+						@transport.To
 					</td>
 					<td>
-						@incentive.DistanceKm
+						@transport.DistanceKm
 					</td>
 					<td>
-						@((incentive.Price).ToString("c"))
+						@((transport.Price).ToString("c"))
 					</td>
 					<td>
 						@if (User.IsInRole(Constants.RoleAdmin))
 						{
-							<a asp-action="Delete" asp-route-incentiveId="@incentive.TransportId" class="btn btn-danger">
+							<a asp-action="Edit" asp-route-transportId="@transport.TransportId" class="btn btn-danger">
+								<i class="bi bi-pencil-square"></i>
+							</a>
+							<a asp-action="Delete" asp-route-transportId="@transport.TransportId" class="btn btn-danger">
 								<i class="bi bi-trash"></i>
 							</a>
 						}

@@ -83,6 +83,7 @@
                         <div class="col-6 text-end">
                             <span class="text-danger" style="font-size:21px;">Total Price :  @string.Format("{0:c}", Model.CartHeader.TotalPrice)<br /></span>
                             <span class="text-success">Total Distance :  @Model.CartHeader.TotalDistance Km<br /></span>
+                            <span class="text-success">Total Count :  @Model.CartHeader.TransportCount<br /></span>
                             @if (Model.CartHeader.Bonus > 0)
                             {
                                 <span class="text-success"> Incentive : @string.Format("{0:c}", Model.CartHeader.Bonus) </span>

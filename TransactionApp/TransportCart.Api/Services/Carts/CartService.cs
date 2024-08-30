@@ -60,7 +60,7 @@ public class CartService : ICartService
 		CartHeader? cartHeaderDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(u => u.UserId == cartDto.CartHeader.UserId);
 		if (cartHeaderDb is null)
 		{
-			await CreateCart(cartDto);
+			await CreateCartHeader(cartDto);
 		}
 		else
 		{
@@ -123,7 +123,7 @@ public class CartService : ICartService
 			.FirstOrDefaultAsync(u => u.TransportId == transportId && u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
 	}
 
-	private async Task CreateCart(CartDto cartDto)
+	private async Task CreateCartHeader(CartDto cartDto)
 	{
 		CartHeader cartHeader = _mapper.Map<CartHeader>(cartDto.CartHeader);
 		_db.CartHeaders.Add(cartHeader);

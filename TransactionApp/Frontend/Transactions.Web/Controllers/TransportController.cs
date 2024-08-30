@@ -38,35 +38,61 @@ public class TransportController : Controller
 		return View("Transports", viewModel);
     }
 
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
+    {
+        return View();
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> Create(TransportDto TransportDto)
+	{
+		if (!ModelState.IsValid) return View(TransportDto);
+
+		ResponseDto<int>? response = await _transportService.CreateAsync(TransportDto);
+
+		if (response is not null && response.IsSuccess)
+		{
+			TempData["success"] = "Transport created successfully";
+			return RedirectToAction(nameof(GetAll));
+		}
+		else
+		{
+			TempData["error"] = response?.ErrorMessage;
+			return View(TransportDto);
+		}
+    }
+
+    public IActionResult Update()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(TransportDto TransportDto)
+	public async Task<IActionResult> Update(int transportId, TransportDto transportDto)
+	{
+        transportDto.TransportId = transportId;
+
+        if (!ModelState.IsValid) return View(transportDto);
+
+		ResponseDto<int>? response = await _transportService.UpdateAsync(transportDto);
+
+		if (response is not null && response.IsSuccess)
+		{
+			TempData["success"] = "Transport updated successfully";
+			return RedirectToAction(nameof(GetAll));
+		}
+		else
+		{
+			TempData["error"] = response?.ErrorMessage;
+			return View(transportDto);
+		}
+	}
+
+	public async Task<IActionResult> Delete(int transportId)
     {
-        if (!ModelState.IsValid) return View(TransportDto);
+        ResponseDto<bool>? response = await _transportService.DeleteAsync(transportId);
 
-        ResponseDto<int>? response = await _transportService.CreateAsync(TransportDto);
-
-        if (response is not null && response.IsSuccess)
-        {
-            TempData["success"] = "Transport created successfully";
-            return RedirectToAction(nameof(GetAll));
-        }
-        else
-        {
-            TempData["error"] = response?.ErrorMessage;
-            return View(TransportDto);
-        }
-    }
-
-    public async Task<IActionResult> Delete(int incentiveId)
-    {
-        ResponseDto<bool>? response = await _transportService.DeleteAsync(incentiveId);
-
-        if (response is not null && response.IsSuccess)
+        if (response.IsSuccess)
         {
             return RedirectToAction("GetAll");
         }
