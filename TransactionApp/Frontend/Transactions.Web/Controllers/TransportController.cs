@@ -62,9 +62,10 @@ public class TransportController : Controller
 		}
     }
 
-    public IActionResult Update()
-    {
-        return View();
+    public async Task<IActionResult> Update(int transportId)
+	{
+		ResponseDto<TransportDto> response = await _transportService.GetByIdAsync(transportId);
+		return View(response.Result);
     }
 
     [HttpPost]
@@ -76,7 +77,7 @@ public class TransportController : Controller
 
 		ResponseDto<int>? response = await _transportService.UpdateAsync(transportDto);
 
-		if (response is not null && response.IsSuccess)
+		if (response.IsSuccess)
 		{
 			TempData["success"] = "Transport updated successfully";
 			return RedirectToAction(nameof(GetAll));

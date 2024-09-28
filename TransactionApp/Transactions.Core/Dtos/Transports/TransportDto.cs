@@ -4,7 +4,7 @@ namespace Transactions.Core.Dtos.Transports;
 
 public class TransportDto
 {
-	public int TransportId { get; set; }
+	public int? TransportId { get; set; }
 
 	public string From { get; set; }
 

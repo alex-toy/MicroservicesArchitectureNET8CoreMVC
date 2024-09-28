@@ -61,9 +61,36 @@ public class IncentiveController : Controller
             TempData["error"] = response?.ErrorMessage;
             return View(incentiveDto);
         }
-    }
+	}
 
-    public async Task<IActionResult> Delete(int incentiveId)
+	public async Task<IActionResult> Update(int incentiveId)
+	{
+		ResponseDto<IncentiveDto> response = await _incentiveService.GetByIdAsync(incentiveId);
+		return View(response.Result);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> Update(int incentiveId, IncentiveDto incentiveDto)
+	{
+		incentiveDto.IncentiveId = incentiveId;
+
+		if (!ModelState.IsValid) return View(incentiveDto);
+
+		ResponseDto<int>? response = await _incentiveService.UpdateAsync(incentiveDto);
+
+		if (response.IsSuccess)
+		{
+			TempData["success"] = "Incentive updated successfully";
+			return RedirectToAction(nameof(GetAll));
+		}
+		else
+		{
+			TempData["error"] = response?.ErrorMessage;
+			return View(incentiveDto);
+		}
+	}
+
+	public async Task<IActionResult> Delete(int incentiveId)
     {
         ResponseDto<bool>? response = await _incentiveService.DeleteAsync(incentiveId);
 

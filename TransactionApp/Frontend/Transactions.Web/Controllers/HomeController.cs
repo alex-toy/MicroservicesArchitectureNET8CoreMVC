@@ -77,7 +77,7 @@ namespace Transactions.Web.Controllers
             CartDetailsDto cartDetails = new CartDetailsDto()
             {
                 Count = productDto.Count,
-                TransportId = productDto.TransportId,
+                TransportId = productDto.TransportId ?? 0,
             };
 
             cartDto.CartDetails = new List<CartDetailsDto>() { cartDetails };

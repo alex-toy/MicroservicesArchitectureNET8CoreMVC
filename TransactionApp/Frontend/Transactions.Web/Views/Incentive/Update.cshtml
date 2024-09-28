@@ -1,0 +1,51 @@
+﻿@using Transactions.Core.Dtos.Incentives
+@model IncentiveDto
+
+<form asp-action="Update">
+    <input asp-for="IncentiveId" hidden />
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Update Transport</h1>
+
+        <hr />
+        <div class="row">
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">IncentiveCode</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="IncentiveCode" class="form-control" />
+                <span asp-validation-for="IncentiveCode" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Min Transport Count</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="MinTransportCount" class="form-control" />
+                <span asp-validation-for="MinTransportCount" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Min Kilometers Count</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="MinKilometersCount" class="form-control" />
+                <span asp-validation-for="MinKilometersCount" class="text-danger"></span>
+            </div>
+
+            <div class="col-5 offset-2">
+                <a asp-action="GetAll" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+
+            <div class="col-5">
+                <input type="submit" value="Update" class="btn btn-success form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

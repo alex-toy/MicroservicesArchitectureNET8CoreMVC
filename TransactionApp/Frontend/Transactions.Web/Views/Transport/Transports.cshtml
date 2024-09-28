@@ -58,6 +58,9 @@
 					<th>
 						Price
 					</th>
+					<th>
+						Category
+					</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -78,9 +81,12 @@
 						@((transport.Price).ToString("c"))
 					</td>
 					<td>
+						@transport.Category
+					</td>
+					<td>
 						@if (User.IsInRole(Constants.RoleAdmin))
 						{
-							<a asp-action="Edit" asp-route-transportId="@transport.TransportId" class="btn btn-danger">
+							<a asp-action="Update" asp-route-transportId="@transport.TransportId" class="btn btn-danger">
 								<i class="bi bi-pencil-square"></i>
 							</a>
 							<a asp-action="Delete" asp-route-transportId="@transport.TransportId" class="btn btn-danger">

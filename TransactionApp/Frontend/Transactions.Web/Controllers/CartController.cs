@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.TransportCarts;
@@ -132,5 +133,21 @@ public class CartController : Controller
 
         TempData["success"] = "Cart updated successfully";
         return RedirectToAction(nameof(CartIndex));
+	}
+
+
+	private async Task<CartDto> LoadCartDtoBasedOnLoggedInUser()
+	{
+		string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+
+		if (string.IsNullOrEmpty(userId)) return new CartDto();
+
+		ResponseDto<CartDto>? response = await _cartService.GetCartByUserIdAsnyc(userId);
+
+		if (response is null || !response.IsSuccess) return new CartDto();
+
+		CartDto? cartDto = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result)!);
+
+		return cartDto ?? new CartDto();
 	}
 }

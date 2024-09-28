@@ -79,6 +79,9 @@
 					<td>
 						@if (User.IsInRole(Constants.RoleAdmin))
 						{
+							<a asp-action="Update" asp-route-incentiveId="@incentive.IncentiveId" class="btn btn-danger">
+								<i class="bi bi-pencil-square"></i>
+							</a>
 							<a asp-action="Delete" asp-route-incentiveId="@incentive.IncentiveId" class="btn btn-danger">
 								<i class="bi bi-trash"></i>
 							</a>
