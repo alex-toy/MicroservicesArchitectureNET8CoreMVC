@@ -11,11 +11,19 @@ public class BaseService : IBaseService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ICookieToken _tokenProvider;
+    private readonly string _name = "Incentive";
 
     public BaseService(IHttpClientFactory httpClient, ICookieToken tokenProvider)
     {
         _httpClientFactory = httpClient;
         _tokenProvider = tokenProvider;
+    }
+
+    public BaseService(IHttpClientFactory httpClient, ICookieToken tokenProvider, string name)
+    {
+        _httpClientFactory = httpClient;
+        _tokenProvider = tokenProvider;
+        _name = name;
     }
 
     public async Task<ResponseDto<TResponse>> SendAsync<TRequest, TResponse>(RequestDto<TRequest> request, bool withBearer = true)
@@ -34,7 +42,7 @@ public class BaseService : IBaseService
 
     private async Task<HttpResponseMessage> GetApiResponse<TRequest>(RequestDto<TRequest> request, bool withBearer = true)
     {
-        HttpClient httpClient = _httpClientFactory.CreateClient("TransactionAPI");
+        HttpClient httpClient = _httpClientFactory.CreateClient(_name);
         HttpRequestMessage message = new()
         {
             RequestUri = new Uri(request.Url),

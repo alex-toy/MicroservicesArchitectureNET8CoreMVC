@@ -42,21 +42,39 @@ public static class WebApplicationBuilderExtensions
 	public static void ConfigureHttpClient(this WebApplicationBuilder builder)
 	{
 		builder.Services.AddHttpClient();
-		builder.Services.AddHttpClient<ITransportsService, TransportsService>();
-		builder.Services.AddHttpClient<IIncentiveService, IncentiveService>();
-	}
+        builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
 
-	public static void ConfigureServices(this WebApplicationBuilder builder)
-	{
-		builder.Services.AddScoped<IBaseService, BaseService>();
-		builder.Services.AddScoped<ICookiesHelper, CookiesHelper>();
-		builder.Services.AddScoped<ICookieToken, CookieToken>();
-		builder.Services.AddScoped<ITransportsService, TransportsService>();
-		builder.Services.AddScoped<IIncentiveService, IncentiveService>();
-		builder.Services.AddScoped<ICartService, CartService>();
-	}
+   //     builder.Services.AddHttpClient<ITransportsService, TransportsService>("Transport")
+			//.AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
-	public static void ConfigureAuth(this WebApplicationBuilder builder)
+		builder.Services.AddHttpClient<IIncentiveService, IncentiveService>("Incentive")
+			.AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+    }
+
+    public static void ConfigureServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IBaseService, BaseService>();
+        builder.Services.AddScoped<ICookiesHelper, CookiesHelper>();
+        builder.Services.AddScoped<ICookieToken, CookieToken>();
+        builder.Services.AddScoped<ITransportsService, TransportsService>();
+        builder.Services.AddScoped<IIncentiveService, IncentiveService>();
+        builder.Services.AddScoped<ICartService, CartService>();
+    }
+
+    public static void ConfigureBackendApiAuthenticationHttpClientHandler(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
+
+        builder.Services
+            .AddHttpClient("Transports", u => u.BaseAddress = new Uri(Constants.TransportAPI))
+            .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+
+        builder.Services
+            .AddHttpClient("Incentive", u => u.BaseAddress = new Uri(Constants.BonusAPI))
+            .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
+    }
+
+    public static void ConfigureAuth(this WebApplicationBuilder builder)
 	{
 		IConfigurationSection settingsSection = builder.Configuration.GetSection("ApiSettings")!;
 

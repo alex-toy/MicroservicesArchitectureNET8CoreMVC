@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Bonus.API.Data;
-using Bonus.API.Dtos;
+﻿using Bonus.API.Dtos;
 using Bonus.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Transactions.Core.Dtos;
 
@@ -9,16 +8,13 @@ namespace Bonus.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class IncentiveController : ControllerBase
 {
-    private readonly AppDbContext _db;
-    private readonly IMapper _mapper;
     private readonly IIncentiveService _incentiveService;
 
-    public IncentiveController(AppDbContext db, IMapper mapper, IIncentiveService incentiveService)
+    public IncentiveController(IIncentiveService incentiveService)
     {
-        _db = db;
-        _mapper = mapper;
         _incentiveService = incentiveService;
     }
 
@@ -53,6 +49,7 @@ public class IncentiveController : ControllerBase
     }
 
     [HttpGet("GetByCode/{code}")]
+    [Authorize(Roles = "ADMIN")]
     public ResponseDto<IncentiveDto> GetByCode(string code)
     {
         try

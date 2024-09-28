@@ -16,12 +16,9 @@ builder.ConfigureMapper();
 
 builder.ConfigureServices();
 
-//builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>();
+//builder.ConfigureBackendApiAuthenticationHttpClientHandler();
 
 //builder.Services.AddScoped<IMessageBus, MessageBus>();
-
-//builder.Services.AddHttpClient("Transport", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:TransportAPI"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
-//builder.Services.AddHttpClient("incentive", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:IncentiveAPI"])).AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
