@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using Transactions.Core.Dtos;
 using Transactions.Core.Dtos.TransportCarts;
+using Transactions.Web.Models;
 using Transactions.Web.Services.Carts;
 
 namespace Transactions.Web.Controllers;
@@ -23,7 +24,13 @@ public class CartController : Controller
     {
         string? userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
         CartDto cartDto =  await _cartService.GetUserCartDto(userId);
-        return View(cartDto);
+        CartIndexVM cartIndexVM = new CartIndexVM() { 
+			CartDto = cartDto, 
+			TotalDistanceKm = cartDto.CartDetails?.Sum(cd => (cd.Transport?.DistanceKm ?? 0) * cd.Count) ?? 0,
+            TotalPrice = cartDto.CartDetails?.Sum(x => (x.Transport?.Price ?? 0) * x.Count) ?? 0,
+            TotalCount = cartDto.CartDetails?.Sum(cd => cd.Count) ?? 0,
+		};
+        return View(cartIndexVM);
 	}
 
 	[Authorize]

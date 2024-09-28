@@ -1,11 +1,12 @@
 ﻿@using Transactions.Core.Dtos.TransportCarts
-@model CartDto
+@model CartIndexVM
 
-@if(Model.CartHeader is not null && Model.CartDetails?.Count() > 0) {
+@if (Model.CartDto.CartHeader is not null && Model.CartDto.CartDetails?.Count() > 0)
+{
     <form method="post" asp-action="EmailCart">
         <br />
-        <input asp-for="CartHeader.UserId" hidden />
-        <input asp-for="CartHeader.CartHeaderId" hidden />
+        <input asp-for="CartDto.CartHeader.UserId" hidden />
+        <input asp-for="CartDto.CartHeader.CartHeaderId" hidden />
         <div class="">
             <div class="card border mt-4 container">
                 <div class="card-header bg-dark text-light ml-0 row ">
@@ -39,7 +40,7 @@
                     </div>
                     <hr />
 
-                    @foreach(CartDetailsDto cartDetail in Model.CartDetails)
+                    @foreach (CartDetailsDto cartDetail in Model.CartDto.CartDetails)
                     {
                         <div class="row h-100">
                             <div class="col-4 col-md-2 text-center py-2">
@@ -64,29 +65,46 @@
                             </div>
                         </div>
                     }
+                    <div class="row h-100">
+                        <div class="col-4 col-md-2 text-center py-2">
+                        </div>
+                        <div class="col-5 col-md-3 pt-md-4">
+                            Totals
+                        </div>
+                        <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                            <span style="font-size:17px;">@Model.TotalDistanceKm</span>
+                        </div>
+                        <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                            <span style="font-size:17px;">@string.Format("{0:c}", @Model.TotalPrice)</span>
+                        </div>
+                        <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                            <span style="font-size:17px;">@Model.TotalCount</span>
+                        </div>
+                        <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                        </div>
+                    </div>
                     <hr />
                     <div class="row">
                         <div class="col-6">
-                            @if (string.IsNullOrEmpty(Model.CartHeader.IncentiveCode))
+                            <span>Incentive:</span>
+                            @if (string.IsNullOrEmpty(Model.CartDto.CartHeader.IncentiveCode))
                             {
-                                <span>Coupon:</span>
-                                <input asp-for="CartHeader.IncentiveCode" />
+                                <input asp-for="CartDto.CartHeader.IncentiveCode" />
                                 <button type="submit" asp-action="ApplyIncentive" class="btn btn-sm btn-success"> Apply </button>
                             }
                             else
                             {
-                                <span>Coupon:</span>
-                                <input asp-for="CartHeader.IncentiveCode" disabled />
+                                <input asp-for="CartDto.CartHeader.IncentiveCode" disabled />
                                 <button type="submit" asp-action="RemoveIncentive" class="btn btn-sm btn-success"> Remove </button>
                             }
                         </div>
                         <div class="col-6 text-end">
-                            <span class="text-danger" style="font-size:21px;">Total Price :  @string.Format("{0:c}", Model.CartHeader.TotalPrice)<br /></span>
-                            <span class="text-success">Total Distance :  @Model.CartHeader.TotalDistance Km<br /></span>
-                            <span class="text-success">Total Count :  @Model.CartHeader.TransportCount<br /></span>
-                            @if (Model.CartHeader.Bonus > 0)
+                            <span class="text-danger" style="font-size:21px;">Total Price :  @string.Format("{0:c}", Model.CartDto.CartHeader.TotalPrice)<br /></span>
+                            <span class="text-success">Total Distance :  @Model.CartDto.CartHeader.TotalDistance Km<br /></span>
+                            <span class="text-success">Total Count :  @Model.CartDto.CartHeader.TransportCount<br /></span>
+                            @if (Model.CartDto.CartHeader.Bonus > 0)
                             {
-                                <span class="text-success"> Incentive : @string.Format("{0:c}", Model.CartHeader.Bonus) </span>
+                                <span class="text-success"> Incentive : @string.Format("{0:c}", Model.CartDto.CartHeader.Bonus) </span>
                             }
                         </div>
                     </div>

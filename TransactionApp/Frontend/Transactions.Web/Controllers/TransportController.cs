@@ -31,7 +31,7 @@ public class TransportController : Controller
             TempData["error"] = response?.ErrorMessage;
         }
 
-        GetAllTransportsVM viewModel = new GetAllTransportsVM() { Filter = new(), Transports = transportDtos };
+        GetAllTransportsVM viewModel = new () { Filter = new(), Transports = transportDtos };
         ViewBag.PriceComparators = ComparatorDropDownList.PopulateComparatorDropDownList();
         ViewBag.DistanceComparators = ComparatorDropDownList.PopulateComparatorDropDownList();
 

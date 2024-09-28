@@ -29,14 +29,11 @@ public class CartService : ICartService
 	public async Task<CartDto> GetByUserId(string userId)
     {
         CartHeader? cartHeader = _db.CartHeaders.FirstOrDefault(cartHeader => cartHeader.UserId == userId);
-        CartHeaderDto cartHeaderDto = _mapper.Map<CartHeaderDto>(cartHeader);
+        CartHeaderDto cartHeaderDto = _mapper.Map<CartHeaderDto>(cartHeader) ?? new CartHeaderDto();
         CartDto cart = new() { CartHeader = cartHeaderDto };
 
-        if (cartHeaderDto is not null)
-        {
-            List<CartDetails> cartDetails = _db.CartDetails.Where(u => u.CartHeaderId == cart.CartHeader.CartHeaderId).ToList();
-            cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(cartDetails);
-        }
+        List<CartDetails> cartDetails = _db.CartDetails.Where(u => u.CartHeaderId == cart.CartHeader.CartHeaderId).ToList();
+        cart.CartDetails = _mapper.Map<IEnumerable<CartDetailsDto>>(cartDetails);
 
         await SetPriceDistanceCountData(cart);
 
